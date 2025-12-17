@@ -1,9 +1,16 @@
 import defeatbeta_api
 from defeatbeta_api.data.ticker import Ticker
-ticker = Ticker('TSLA')
+ticker = Ticker('AAPL')
 
 transcripts = ticker.earning_call_transcripts()
-transcripts.get_transcripts_list()
+
+transcripts_list = transcripts.get_transcripts_list()
+with open('transcripts_list.txt', 'w') as f:
+    if hasattr(transcripts_list, 'to_string'):
+        f.write(transcripts_list.to_string(max_colwidth=None))
+    else:
+        f.write(str(transcripts_list))
+print("Transcripts list written to transcripts_list.txt")
 
 import json
 
