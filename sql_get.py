@@ -66,14 +66,11 @@ try:
         for index, row in result.iterrows():
             try:
                 # 1. Extract Metadata
-                transcript_id = row['transcripts_id']
-                
-                # Generate deterministic ID if missing
-                if pd.isna(transcript_id) or transcript_id == '':
-                    # Create a unique string based on symbol and date
-                    id_str = f"{row['symbol']}{row['report_date']}"
-                    # Generate MD5 hash
-                    transcript_id = hashlib.md5(id_str.encode()).hexdigest()
+                # Always generate deterministic ID for uniformity
+                # Create a unique string based on symbol and date
+                id_str = f"{row['symbol']}{row['report_date']}"
+                # Generate MD5 hash
+                transcript_id = hashlib.md5(id_str.encode()).hexdigest()
                 
                 metadata_rows.append({
                     'transcript_id': transcript_id,
