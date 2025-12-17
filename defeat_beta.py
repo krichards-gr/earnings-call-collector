@@ -15,7 +15,7 @@ print("Transcripts list written to transcripts_list.txt")
 import json
 
 transcripts = ticker.earning_call_transcripts()
-data = transcripts.get_transcript(2024, 4)
+data = transcripts.get_transcript(2024, 3)
 
 with open('transcript_data.json', 'w') as f:
     if hasattr(data, 'to_json'):
