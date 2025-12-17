@@ -56,16 +56,54 @@ try:
     if result.empty:
         print("No transcripts found for the specified criteria.")
     else:
-        print(f"Found {len(result)} transcripts.")
+        print(f"Found {len(result)} transcripts. Flattening data...")
         
-        # Reorder columns: symbol, report_date first
-        cols = ['symbol', 'report_date'] + [c for c in result.columns if c not in ['symbol', 'report_date']]
-        result = result[cols]
+        flat_data = []
+        import ast
+
+        for index, row in result.iterrows():
+            try:
+                # Parse the transcripts string which is a list of dicts
+                # Use ast.literal_eval because it's a string representation of a Python list
+                transcript_raw = row['transcripts']
+                
+                if isinstance(transcript_raw, str):
+                    paragraphs = ast.literal_eval(transcript_raw)
+                elif isinstance(transcript_raw, list):
+                    paragraphs = transcript_raw
+                elif hasattr(transcript_raw, 'tolist'): # Check for numpy array
+                    paragraphs = transcript_raw.tolist()
+                else:
+                    print(f"Unexpected type for transcripts: {row['symbol']} {row['report_date']} {type(transcript_raw)}")
+                    continue
+                
+                for p in paragraphs:
+                    flat_data.append({
+                        'symbol': row['symbol'],
+                        'report_date': row['report_date'],
+                        'fiscal_year': row['fiscal_year'],
+                        'fiscal_quarter': row['fiscal_quarter'],
+                        'paragraph_number': p.get('paragraph_number'),
+                        'speaker': p.get('speaker'),
+                        'content': p.get('content'),
+                        'transcript_id': row['transcripts_id']
+                    })
+            except (ValueError, SyntaxError) as e:
+                print(f"Error parsing transcript for {row['symbol']} on {row['report_date']}: {e}")
+                continue
+
+        # Create new DataFrame
+        flat_df = pd.DataFrame(flat_data)
+        
+        # Verify columns exist before reordering (in case data was empty)
+        expected_cols = ['symbol', 'report_date', 'fiscal_year', 'fiscal_quarter', 'paragraph_number', 'speaker', 'content', 'transcript_id']
+        if not flat_df.empty:
+            flat_df = flat_df[expected_cols]
 
         # Save to CSV
         output_file = 'transcript_data_sql.csv'
-        result.to_csv(output_file, index=False)
-        print(f"Data saved to {output_file}")
+        flat_df.to_csv(output_file, index=False)
+        print(f"Flattened data saved to {output_file}. Total paragraphs: {len(flat_df)}")
 
 except Exception as e:
     print(f"Error: {e}")
