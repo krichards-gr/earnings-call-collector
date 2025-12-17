@@ -56,15 +56,26 @@ try:
     if result.empty:
         print("No transcripts found for the specified criteria.")
     else:
-        print(f"Found {len(result)} transcripts. Flattening data...")
+        print(f"Found {len(result)} transcripts. Processing and normalizing data...")
         
-        flat_data = []
+        metadata_rows = []
+        content_rows = []
         import ast
 
         for index, row in result.iterrows():
             try:
+                # 1. Extract Metadata
+                transcript_id = row['transcripts_id']
+                metadata_rows.append({
+                    'transcript_id': transcript_id,
+                    'symbol': row['symbol'],
+                    'report_date': row['report_date'],
+                    'fiscal_year': row['fiscal_year'],
+                    'fiscal_quarter': row['fiscal_quarter']
+                })
+
+                # 2. Extract Content
                 # Parse the transcripts string which is a list of dicts
-                # Use ast.literal_eval because it's a string representation of a Python list
                 transcript_raw = row['transcripts']
                 
                 if isinstance(transcript_raw, str):
@@ -78,32 +89,31 @@ try:
                     continue
                 
                 for p in paragraphs:
-                    flat_data.append({
-                        'symbol': row['symbol'],
-                        'report_date': row['report_date'],
-                        'fiscal_year': row['fiscal_year'],
-                        'fiscal_quarter': row['fiscal_quarter'],
+                    content_rows.append({
+                        'transcript_id': transcript_id,
                         'paragraph_number': p.get('paragraph_number'),
                         'speaker': p.get('speaker'),
-                        'content': p.get('content'),
-                        'transcript_id': row['transcripts_id']
+                        'content': p.get('content')
                     })
+
             except (ValueError, SyntaxError) as e:
                 print(f"Error parsing transcript for {row['symbol']} on {row['report_date']}: {e}")
                 continue
 
-        # Create new DataFrame
-        flat_df = pd.DataFrame(flat_data)
-        
-        # Verify columns exist before reordering (in case data was empty)
-        expected_cols = ['symbol', 'report_date', 'fiscal_year', 'fiscal_quarter', 'paragraph_number', 'speaker', 'content', 'transcript_id']
-        if not flat_df.empty:
-            flat_df = flat_df[expected_cols]
+        # Create DataFrames
+        metadata_df = pd.DataFrame(metadata_rows).drop_duplicates()
+        content_df = pd.DataFrame(content_rows)
 
-        # Save to CSV
-        output_file = 'transcript_data_sql.csv'
-        flat_df.to_csv(output_file, index=False)
-        print(f"Flattened data saved to {output_file}. Total paragraphs: {len(flat_df)}")
+        # Save to CSVs
+        metadata_file = 'transcripts_metadata.csv'
+        content_file = 'transcripts_content.csv'
+        
+        metadata_df.to_csv(metadata_file, index=False)
+        content_df.to_csv(content_file, index=False)
+        
+        print(f"Data normalization complete.")
+        print(f"Metadata saved to {metadata_file} ({len(metadata_df)} calls)")
+        print(f"Content saved to {content_file} ({len(content_df)} paragraphs)")
 
 except Exception as e:
     print(f"Error: {e}")
