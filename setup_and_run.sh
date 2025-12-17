@@ -16,5 +16,5 @@ echo "Installing requirements (user scope)..."
 
 pip3 install --user defeatbeta-api --break-system-packages || pip3 install --user defeatbeta-api
 
-echo "Running script..."
-python3 defeat_beta.py
+echo "Running SQL retrieval script..."
+python3 sql_get.py "$@"
