@@ -169,11 +169,14 @@ def collect_transcripts(tickers_source, months=None):
     # We must only write to local if it doesn't exist locally (to avoid UNIQUE constraint fail)
     # even though we processed it for the sake of BQ.
     
+    # Check if running in Cloud Run (K_SERVICE is set automatically)
+    is_cloud_run = os.environ.get('K_SERVICE') is not None
+    
     # Filter for local
     local_metadata_rows = [r for r in metadata_rows if r['transcript_id'] not in existing_ids_local]
     local_content_rows = [r for r in content_rows if r['transcript_id'] not in existing_ids_local]
 
-    if local_metadata_rows:
+    if not is_cloud_run and local_metadata_rows:
         logger.info(f"Saving {len(local_metadata_rows)} new calls to SQLite and CSV...")
         metadata_df = pd.DataFrame(local_metadata_rows).drop_duplicates()
         content_df = pd.DataFrame(local_content_rows)
@@ -194,6 +197,8 @@ def collect_transcripts(tickers_source, months=None):
             content_df.to_csv(content_file, mode='a', header=False, index=False)
         else:
             content_df.to_csv(content_file, index=False)
+    elif is_cloud_run:
+        logger.info("Running in Cloud Run: Skipping local DB/CSV writes (ephemeral storage).")
     else:
         logger.info("All processed calls already exist in local DB (skipping local write).")
 
