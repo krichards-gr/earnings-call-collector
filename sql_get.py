@@ -245,9 +245,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if not args.run_local:
-        logging.warning("⚠️  Security/Safety Check: Local execution disabled by default.")
-        logging.warning("To run this script locally, you must provide the --run_local flag.")
-        logging.warning("Example: ./run.sh --run_local --start_date 2023-01-01")
-        exit(0)
+        print("⚠️  Security/Safety Check: Local execution disabled by default.")
+        print("To run this script locally, you must provide the --run_local flag.")
+        print("Example: ./run.sh --run_local --start_date 2023-01-01")
+        import sys
+        sys.exit(1)
 
     collect_transcripts(args.tickers, args.months, args.start_date)
