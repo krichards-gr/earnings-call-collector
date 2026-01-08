@@ -12,7 +12,7 @@ def initialize_bq(project_id, dataset_id):
     dataset_ref = f"{project_id}.{dataset_id}"
     
     # Metadata Table
-    metadata_table_id = f"{dataset_ref}.transcript_metadata"
+    metadata_table_id = f"{dataset_ref}.earnings_call_transcript_metadata"
     metadata_schema = [
         bigquery.SchemaField("transcript_id", "STRING", mode="REQUIRED"),
         bigquery.SchemaField("symbol", "STRING", mode="NULLABLE"),
@@ -23,7 +23,7 @@ def initialize_bq(project_id, dataset_id):
     _create_table_if_not_exists(client, metadata_table_id, metadata_schema)
 
     # Content Table
-    content_table_id = f"{dataset_ref}.transcript_content"
+    content_table_id = f"{dataset_ref}.earnings_call_transcript_content"
     content_schema = [
         bigquery.SchemaField("transcript_id", "STRING", mode="REQUIRED"),
         bigquery.SchemaField("paragraph_number", "INTEGER", mode="NULLABLE"),
@@ -47,7 +47,7 @@ def _create_table_if_not_exists(client, table_ref, schema):
 
 def get_existing_ids_bq(project_id, dataset_id):
     client = get_client(project_id)
-    table_ref = f"{project_id}.{dataset_id}.transcript_metadata"
+    table_ref = f"{project_id}.{dataset_id}.earnings_call_transcript_metadata"
     
     query = f"SELECT transcript_id FROM `{table_ref}`"
     
@@ -68,14 +68,14 @@ def insert_metadata_bq(project_id, dataset_id, df):
     if df.empty:
         return
     client = get_client(project_id)
-    table_ref = f"{project_id}.{dataset_id}.transcript_metadata"
+    table_ref = f"{project_id}.{dataset_id}.earnings_call_transcript_metadata"
     _insert_rows_from_df(client, table_ref, df)
 
 def insert_content_bq(project_id, dataset_id, df):
     if df.empty:
         return
     client = get_client(project_id)
-    table_ref = f"{project_id}.{dataset_id}.transcript_content"
+    table_ref = f"{project_id}.{dataset_id}.earnings_call_transcript_content"
     _insert_rows_from_df(client, table_ref, df)
 
 def _insert_rows_from_df(client, table_ref, df):
