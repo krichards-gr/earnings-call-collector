@@ -241,6 +241,13 @@ if __name__ == "__main__":
     parser.add_argument('--tickers', type=str, default='tickers.csv', help='Path to CSV file containing tickers')
     parser.add_argument('--months', type=int, help='Number of months back to retrieve data for')
     parser.add_argument('--start_date', type=str, help='Start date in YYYY-MM-DD format')
+    parser.add_argument('--run_local', action='store_true', help='Explicitly enable local execution')
     args = parser.parse_args()
+
+    if not args.run_local:
+        logging.warning("⚠️  Security/Safety Check: Local execution disabled by default.")
+        logging.warning("To run this script locally, you must provide the --run_local flag.")
+        logging.warning("Example: ./run.sh --run_local --start_date 2023-01-01")
+        exit(0)
 
     collect_transcripts(args.tickers, args.months, args.start_date)
