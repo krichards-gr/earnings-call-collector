@@ -20,6 +20,7 @@ def entry_point(request):
 
     tickers_source = 'tickers.csv' # Default to included file
     months = 1 # Default to 1 month
+    start_date = None
 
     if request_json and 'tickers' in request_json:
         tickers_source = request_json['tickers']
@@ -30,11 +31,16 @@ def entry_point(request):
         months = request_json['months']
     elif request_args and 'months' in request_args:
         months = int(request_args['months'])
+        
+    if request_json and 'start_date' in request_json:
+        start_date = request_json['start_date']
+    elif request_args and 'start_date' in request_args:
+        start_date = request_args['start_date']
 
-    logger.info(f"Triggered Cloud Function. Tickers source: {tickers_source}, Months: {months}")
+    logger.info(f"Triggered Cloud Function. Tickers source: {tickers_source}, Months: {months}, Start Date: {start_date}")
     
     try:
-        collect_transcripts(tickers_source, months)
+        collect_transcripts(tickers_source, months, start_date)
         return 'Earnings call collection completed successfully.', 200
     except Exception as e:
         logger.exception(f"Error during execution: {e}")

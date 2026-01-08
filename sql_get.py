@@ -22,11 +22,12 @@ logger = logging.getLogger(__name__)
 PROJECT_ID = "sri-benchmarking-databases"
 DATASET_ID = "pressure_monitoring"
 
-def collect_transcripts(tickers_source, months=None):
+def collect_transcripts(tickers_source, months=None, start_date=None):
     """
     Main logic to collect transcripts.
     tickers_source: Path to CSV or list of tickers.
     months: Number of months back to retrieve.
+    start_date: Specific start date (YYYY-MM-DD). Overrides months.
     """
     
     # Initialize clients
@@ -48,7 +49,10 @@ def collect_transcripts(tickers_source, months=None):
     logger.info(f"Loaded {len(existing_ids_local)} existing transcript IDs from local database.")
 
     # Date logic
-    if months:
+    if start_date:
+        cutoff_date = start_date
+        logger.info(f"Retrieving data since {cutoff_date}")
+    elif months:
         cutoff_date = (datetime.date.today() - datetime.timedelta(days=months*30)).strftime('%Y-%m-%d')
         logger.info(f"Retrieving data from last {months} months (since {cutoff_date})")
     else:
@@ -226,6 +230,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Retrieve earning call transcripts.')
     parser.add_argument('--tickers', type=str, default='tickers.csv', help='Path to CSV file containing tickers')
     parser.add_argument('--months', type=int, help='Number of months back to retrieve data for')
+    parser.add_argument('--start_date', type=str, help='Start date in YYYY-MM-DD format')
     args = parser.parse_args()
 
-    collect_transcripts(args.tickers, args.months)
+    collect_transcripts(args.tickers, args.months, args.start_date)
