@@ -104,14 +104,12 @@ def collect_transcripts(tickers_source, months=None):
             id_str = f"{row['symbol']}{row['report_date']}"
             transcript_id = hashlib.md5(id_str.encode()).hexdigest()
             
-            # Check if exists in BOTH (or either? usually we want to backfill if missing in one)
-            # Strategy: If it's in local DB, skip local write. If in BQ, skip BQ write.
-            # But here we are processing a batch. Let's simplify: 
-            # If present in local, we assume we processed it before. 
-            # If user wants to backfill BQ, they might need a separate flag or clear local DB.
-            # For now, let's stick to "if in local, skip".
-            if transcript_id in existing_ids_local:
+            # User Request: BQ is the main source.
+            if transcript_id in existing_ids_bq:
                 continue
+            
+            # Note: We do NOT skip even if it is in existing_ids_local, 
+            # because we might need to backfill BQ. 
             
             new_calls_count += 1
             
@@ -168,10 +166,17 @@ def collect_transcripts(tickers_source, months=None):
         return
 
     # SAVE TO LOCAL
-    if metadata_rows:
-        logger.info(f"Saving {len(metadata_rows)} new calls to SQLite and CSV...")
-        metadata_df = pd.DataFrame(metadata_rows).drop_duplicates()
-        content_df = pd.DataFrame(content_rows)
+    # We must only write to local if it doesn't exist locally (to avoid UNIQUE constraint fail)
+    # even though we processed it for the sake of BQ.
+    
+    # Filter for local
+    local_metadata_rows = [r for r in metadata_rows if r['transcript_id'] not in existing_ids_local]
+    local_content_rows = [r for r in content_rows if r['transcript_id'] not in existing_ids_local]
+
+    if local_metadata_rows:
+        logger.info(f"Saving {len(local_metadata_rows)} new calls to SQLite and CSV...")
+        metadata_df = pd.DataFrame(local_metadata_rows).drop_duplicates()
+        content_df = pd.DataFrame(local_content_rows)
 
         db_utils.insert_metadata(metadata_df)
         db_utils.insert_content(content_df)
@@ -189,31 +194,23 @@ def collect_transcripts(tickers_source, months=None):
             content_df.to_csv(content_file, mode='a', header=False, index=False)
         else:
             content_df.to_csv(content_file, index=False)
+    else:
+        logger.info("All processed calls already exist in local DB (skipping local write).")
 
     # SAVE TO BQ
-    if metadata_rows: # Use metadata_rows check since we want to sync
+    if metadata_rows: 
         logger.info(f"Saving {len(metadata_rows)} new calls to BigQuery...")
         try:
-             # Reuse the dataframes created for local storage since they match the schema (mostly)
-             # We might need to ensure BQ schema compat (date types etc), but load_table_from_dataframe handles a lot.
-             # Ensure 'report_date' is proper type if needed, but 'DATE' in BQ accepts strings or date objects.
+             # Since we controlled the loop using existing_ids_bq, everything in metadata_rows
+             # is strictly NEW for BigQuery. We can write it all.
              
-             # Filter metadata_df for only what is needed in BQ if it differs, but here it's same.
-             
-             # We need to filter for ONLY IDs that were not in BQ. 
-             # In the loop we only added to metadata_rows if not in LOCAL. 
-             # Just to be safe and efficient, we should re-filter or assume if it wasn't in local it likely wasn't in BQ (or we backfill).
-             # But let's respect existing_ids_bq check.
-             
-             bq_metadata_df = metadata_df[~metadata_df['transcript_id'].isin(existing_ids_bq)]
-             bq_content_df = content_df[~content_df['transcript_id'].isin(existing_ids_bq)]
+             bq_metadata_df = pd.DataFrame(metadata_rows).drop_duplicates()
+             bq_content_df = pd.DataFrame(content_rows)
              
              if not bq_metadata_df.empty:
                  db_cloud_utils.insert_metadata_bq(PROJECT_ID, DATASET_ID, bq_metadata_df)
                  db_cloud_utils.insert_content_bq(PROJECT_ID, DATASET_ID, bq_content_df)
                  logger.info(f"Saved {len(bq_metadata_df)} calls to BigQuery.")
-             else:
-                 logger.info("No new calls for BigQuery (all existed).")
 
         except Exception as e:
             logger.error(f"Failed to save to BigQuery: {e}")
