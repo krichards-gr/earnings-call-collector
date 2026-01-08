@@ -1,70 +1,81 @@
 # Earnings Call Collector
 
-A set of tools to retrieve, process, and normalize earnings call transcripts using DuckDB and the DefeatBeta API.
+A hybrid tool to retrieve, process, and normalize earnings call transcripts using DuckDB and the DefeatBeta API. It supports both local execution (saving to SQLite/CSV) and cloud deployment via Google Cloud Run (saving to BigQuery).
 
 ## Overview
 
-This project fetches earnings call transcripts for specified stock tickers, normalizes the data into a relational structure (Metadata + Content), and saves the results as CSV files. It is designed to run in a WSL (Windows Subsystem for Linux) environment to ensure compatibility with specific dependencies.
+This project fetches earnings call transcripts for specified stock tickers, normalizes the data into a relational structure (Metadata + Content), and stores it.
+
+*   **Local Mode**: Runs in a WSL environment. Saves data to local `transcripts.db` (SQLite) and CSV files (`transcripts_metadata.csv`, `transcripts_content.csv`). Syncs new data to BigQuery if credentials are set up.
+*   **Cloud Mode**: Runs as a Google Cloud Run Function. Triggered via HTTP. Saves data *only* to BigQuery (ephemeral storage is skipped).
 
 ## Project Structure
 
-*   **`sql_get.py`**: The core Python script that performs the SQL query via DuckDB, fetches transcripts, and normalizes the data.
-*   **`run_in_wsl.ps1`**: PowerShell wrapper script to easily execute the tool inside WSL from Windows.
-*   **`setup_and_run.sh`**: Bash script that handles environment setup (pip installation) and runs the Python script within WSL.
-*   **`tickers.csv`**: Input CSV file containing the list of ticker symbols to query (header: `symbol`).
+*   **`sql_get.py`**: Core script. Fetches and processes transcripts.
+*   **`main.py`**: Entry point for Google Cloud Run Functions.
+*   **`db_cloud_utils.py`**: Utilities for BigQuery interaction (schema setup, insertion).
+*   **`setup_bq.py`**: Script to initialize the BigQuery dataset and tables one-time.
+*   **`run_in_wsl.ps1`**: PowerShell wrapper for local execution via WSL.
+*   **`setup_and_run.sh`**: Bash script for environment setup and execution in WSL.
+*   **`tickers.csv`**: List of ticker symbols to query.
 
-## Prerequisites
+## Cloud Deployment (Google Cloud Run)
 
-*   **WSL (Windows Subsystem for Linux)**: Required for running the scripts.
-*   **Python 3**: Must be installed in your WSL environment.
-*   **Dependencies**: The script automatically checks for and installs required Python packages (`pandas`, `duckdb`, `defeatbeta-api`).
+The project is designed to be deployed as a 2nd Gen Cloud Function (Cloud Run).
 
-## Usage
+### 1. Prerequisites
+*   Google Cloud Project with BigQuery and Cloud Run APIs enabled.
+*   DeepLake/HuggingFace API access (via `defeatbeta-api`).
+
+### 2. Configuration
+The function uses the following constants (configure in `sql_get.py` or `db_cloud_utils.py`):
+*   `PROJECT_ID`: Your GCP Project ID.
+*   `DATASET_ID`: BigQuery dataset name (e.g., `pressure_monitoring`).
+
+### 3. BigQuery Schema
+The system uses two tables in BigQuery:
+1.  **`earnings_call_transcript_metadata`**:
+    *   `transcript_id` (STRING, REQ): Unique MD5 hash of `symbol` + `report_date`.
+    *   `symbol`, `report_date`, `fiscal_year`, `fiscal_quarter`.
+2.  **`earnings_call_transcript_content`**:
+    *   `transcript_id` (STRING, REQ).
+    *   `paragraph_number`, `speaker`, `content`.
+
+### 4. Triggering the Function
+The function expects an HTTP request. You can pass optional parameters in the JSON body or Query String:
+*   `tickers`: (Optional) Ticker symbol or source.
+*   `months`: (Optional) Number of months back to search (int). Default is 1.
+
+## Local Development & Usage
+
+For local runs, the project prefers a Linux environment (or WSL on Windows).
 
 ### 1. Configure Tickers
-Add the stock symbols you want to track to `tickers.csv`. The file should have a header row:
+Add symbols to `tickers.csv`:
 ```csv
 symbol
 AAPL
 MSFT
-TSLA
 ```
 
 ### 2. Run the Collector
-You can run the collector using the PowerShell wrapper. By default, it fetches Year-to-Date (YTD) data.
+Use the PowerShell wrapper to execute inside WSL:
 
 **Standard Run (YTD):**
 ```powershell
 .\run_in_wsl.ps1
 ```
 
-**Custom Date Range (Last N months):**
-To fetch data for the last 6 months:
+**Custom Date Range:**
 ```powershell
 .\run_in_wsl.ps1 -months 6
 ```
 
-## Output
-
-The tool generates two normalized CSV files linked by a unique `transcript_id`.
-
-### 1. `transcripts_metadata.csv`
-Contains high-level information about each earnings call.
-*   **transcript_id**: Unique 32-character MD5 hash of `symbol` + `report_date`. (Primary Key)
-*   **symbol**: Stock ticker.
-*   **report_date**: Date of the report.
-*   **fiscal_year**: Fiscal year of the report.
-*   **fiscal_quarter**: Fiscal quarter of the report.
-
-### 2. `transcripts_content.csv`
-Contains the actual text content of the call, broken down by paragraph.
-*   **transcript_id**: Foreign Key linking to the metadata file.
-*   **paragraph_number**: Sequence number of the paragraph.
-*   **speaker**: Name of the speaker (if available).
-*   **content**: The spoken text.
+### 3. Local Output
+*   **`transcripts_metadata.csv`**: Call metadata.
+*   **`transcripts_content.csv`**: Full transcript text.
 
 ## ID Generation
-The `transcript_id` is generated using a deterministic MD5 hash of the `symbol` and `report_date`. This ensures that:
-*   IDs are uniform across all records.
-*   IDs are reproducible (running the script twice on the same data yields the same IDs).
-*   Data integrity is maintained even if source data has missing native IDs.
+`transcript_id` is a deterministic MD5 hash of `symbol` + `report_date`, ensuring:
+*   Uniform IDs across local and cloud environments.
+*   Idempotency (re-running does not create duplicate IDs).
