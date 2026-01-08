@@ -14,7 +14,7 @@ echo "Installing requirements (user scope)..."
 # OR just try standard install first. Newer ubuntu requires --break-system-packages for user installs outside venv often?
 # actually, let's just try pip install --user.
 
-pip3 install --user defeatbeta-api --break-system-packages || pip3 install --user defeatbeta-api
+pip3 install --user -r requirements.txt --break-system-packages || pip3 install --user -r requirements.txt
 
 echo "Running SQL retrieval script..."
 python3 sql_get.py "$@"
