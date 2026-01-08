@@ -214,6 +214,10 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
              # is strictly NEW for BigQuery. We can write it all.
              
              bq_metadata_df = pd.DataFrame(metadata_rows).drop_duplicates()
+             # Ensure report_date is proper datetime for BigQuery/PyArrow
+             if not bq_metadata_df.empty:
+                 bq_metadata_df['report_date'] = pd.to_datetime(bq_metadata_df['report_date'])
+                 
              bq_content_df = pd.DataFrame(content_rows)
              
              if not bq_metadata_df.empty:

@@ -5,3 +5,4 @@ google-cloud-bigquery
 db-dtypes
 functions-framework
 defeatbeta-api
+pandas-gbq
