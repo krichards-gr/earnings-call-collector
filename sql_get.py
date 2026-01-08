@@ -48,8 +48,9 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
         existing_ids_bq = db_cloud_utils.get_existing_ids_bq(PROJECT_ID, DATASET_ID)
         logger.info(f"Loaded {len(existing_ids_bq)} existing transcript IDs from BigQuery.")
     except Exception as e:
-        logger.warning(f"Could not load BQ IDs: {e}")
-        existing_ids_bq = set()
+        logger.error(f"Critical Error: Could not load BQ IDs: {e}")
+        logger.error("Aborting to prevent duplicate data insertion.")
+        return
 
     logger.info(f"Loaded {len(existing_ids_local)} existing transcript IDs from local database.")
 
