@@ -34,9 +34,14 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
     duckdb_client = DuckDBClient(log_level=logging.INFO, config=Configuration(threads=8))
     huggingface_client = HuggingFaceClient()
 
-    # Initialize DBs
-    db_utils.initialize_db()
-    existing_ids_local = db_utils.get_existing_ids()
+    # Check if running in Cloud Run (K_SERVICE is set automatically)
+    is_cloud_run = os.environ.get('K_SERVICE') is not None
+
+    existing_ids_local = set()
+    if not is_cloud_run:
+        # Initialize DBs
+        db_utils.initialize_db()
+        existing_ids_local = db_utils.get_existing_ids()
     
     # Try to get BQ existing IDs
     try:
@@ -174,7 +179,7 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
     # even though we processed it for the sake of BQ.
     
     # Check if running in Cloud Run (K_SERVICE is set automatically)
-    is_cloud_run = os.environ.get('K_SERVICE') is not None
+    # is_cloud_run is already defined at top of function
     
     # Filter for local
     local_metadata_rows = [r for r in metadata_rows if r['transcript_id'] not in existing_ids_local]
