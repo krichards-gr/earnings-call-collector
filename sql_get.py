@@ -37,8 +37,8 @@ if args.months:
     cutoff_date = (datetime.date.today() - datetime.timedelta(days=args.months*30)).strftime('%Y-%m-%d')
     logger.info(f"Retrieving data from last {args.months} months (since {cutoff_date})")
 else:
-    cutoff_date = datetime.date(datetime.date.today().year, 1, 1).strftime('%Y-%m-%d')
-    logger.info(f"Retrieving data YTD (since {cutoff_date})")
+    cutoff_date = '2024-01-01'
+    logger.info(f"Retrieving data since {cutoff_date}")
 
 # Read tickers
 try:
