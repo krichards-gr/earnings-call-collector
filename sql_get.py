@@ -12,44 +12,70 @@ import ast
 import hashlib
 import os
 import db_utils
+import db_cloud_utils
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Initialize clients
-duckdb_client = DuckDBClient(log_level=logging.DEBUG, config=Configuration(threads=8))
-huggingface_client = HuggingFaceClient()
+# Constants for BQ
+PROJECT_ID = "sri-benchmarking-databases"
+DATASET_ID = "pressure_monitoring"
 
-# Argument parsing
-parser = argparse.ArgumentParser(description='Retrieve earning call transcripts.')
-parser.add_argument('--tickers', type=str, default='tickers.csv', help='Path to CSV file containing tickers')
-parser.add_argument('--months', type=int, help='Number of months back to retrieve data for')
-args = parser.parse_args()
-
-# Initialize DB
-db_utils.initialize_db()
-existing_ids = db_utils.get_existing_ids()
-logger.info(f"Loaded {len(existing_ids)} existing transcript IDs from database.")
-
-# Date logic
-if args.months:
-    cutoff_date = (datetime.date.today() - datetime.timedelta(days=args.months*30)).strftime('%Y-%m-%d')
-    logger.info(f"Retrieving data from last {args.months} months (since {cutoff_date})")
-else:
-    cutoff_date = '2024-01-01'
-    logger.info(f"Retrieving data since {cutoff_date}")
-
-# Read tickers
-try:
-    tickers_df = pd.read_csv(args.tickers)
-    if 'symbol' in tickers_df.columns:
-        tickers = tickers_df['symbol'].tolist()
-    elif 'ticker' in tickers_df.columns:
-        tickers = tickers_df['ticker'].tolist()
-    else:
-        tickers = tickers_df.iloc[:, 0].tolist()
+def collect_transcripts(tickers_source, months=None):
+    """
+    Main logic to collect transcripts.
+    tickers_source: Path to CSV or list of tickers.
+    months: Number of months back to retrieve.
+    """
     
+    # Initialize clients
+    duckdb_client = DuckDBClient(log_level=logging.INFO, config=Configuration(threads=8))
+    huggingface_client = HuggingFaceClient()
+
+    # Initialize DBs
+    db_utils.initialize_db()
+    existing_ids_local = db_utils.get_existing_ids()
+    
+    # Try to get BQ existing IDs
+    try:
+        existing_ids_bq = db_cloud_utils.get_existing_ids_bq(PROJECT_ID, DATASET_ID)
+        logger.info(f"Loaded {len(existing_ids_bq)} existing transcript IDs from BigQuery.")
+    except Exception as e:
+        logger.warning(f"Could not load BQ IDs: {e}")
+        existing_ids_bq = set()
+
+    logger.info(f"Loaded {len(existing_ids_local)} existing transcript IDs from local database.")
+
+    # Date logic
+    if months:
+        cutoff_date = (datetime.date.today() - datetime.timedelta(days=months*30)).strftime('%Y-%m-%d')
+        logger.info(f"Retrieving data from last {months} months (since {cutoff_date})")
+    else:
+        cutoff_date = '2024-01-01'
+        logger.info(f"Retrieving data since {cutoff_date}")
+
+    # Read tickers
+    tickers = []
+    if isinstance(tickers_source, list):
+        tickers = tickers_source
+    elif isinstance(tickers_source, str):
+        try:
+            tickers_df = pd.read_csv(tickers_source)
+            if 'symbol' in tickers_df.columns:
+                tickers = tickers_df['symbol'].tolist()
+            elif 'ticker' in tickers_df.columns:
+                tickers = tickers_df['ticker'].tolist()
+            else:
+                tickers = tickers_df.iloc[:, 0].tolist()
+        except Exception as e:
+            logger.error(f"Error reading tickers file: {e}")
+            return
+            
+    if not tickers:
+        logger.warning("No tickers found to process.")
+        return
+
     tickers_str = ", ".join([f"'{t}'" for t in tickers])
     logger.info(f"Querying for {len(tickers)} tickers.")
 
@@ -64,89 +90,140 @@ try:
 
     if result.empty:
         logger.info("No transcripts found for the specified criteria.")
-    else:
-        logger.info(f"Retrieved {len(result)} potential matches. Processing for new calls...")
-        
-        metadata_rows = []
-        content_rows = []
-        new_calls_count = 0
+        return
 
-        for index, row in result.iterrows():
-            try:
-                # 1. Identity and Deduplication
-                id_str = f"{row['symbol']}{row['report_date']}"
-                transcript_id = hashlib.md5(id_str.encode()).hexdigest()
+    logger.info(f"Retrieved {len(result)} potential matches. Processing for new calls...")
+    
+    metadata_rows = []
+    content_rows = []
+    new_calls_count = 0
+
+    for index, row in result.iterrows():
+        try:
+            # 1. Identity and Deduplication
+            id_str = f"{row['symbol']}{row['report_date']}"
+            transcript_id = hashlib.md5(id_str.encode()).hexdigest()
+            
+            # Check if exists in BOTH (or either? usually we want to backfill if missing in one)
+            # Strategy: If it's in local DB, skip local write. If in BQ, skip BQ write.
+            # But here we are processing a batch. Let's simplify: 
+            # If present in local, we assume we processed it before. 
+            # If user wants to backfill BQ, they might need a separate flag or clear local DB.
+            # For now, let's stick to "if in local, skip".
+            if transcript_id in existing_ids_local:
+                continue
+            
+            new_calls_count += 1
+            
+            # 2. Extract Metadata
+            metadata_rows.append({
+                'transcript_id': transcript_id,
+                'symbol': row['symbol'],
+                'report_date': row['report_date'],
+                'fiscal_year': row['fiscal_year'],
+                'fiscal_quarter': row['fiscal_quarter']
+            })
+            
+            # BQ Doc Init
+            bq_doc = {
+                'transcript_id': transcript_id,
+                'symbol': row['symbol'],
+                'report_date': str(row['report_date']), # Ensure string for BQ DATE
+                'fiscal_year': row['fiscal_year'],
+                'fiscal_quarter': row['fiscal_quarter'],
+                'content': []
+            }
+
+            # 3. Extract Content
+            transcript_raw = row['transcripts']
+            
+            if isinstance(transcript_raw, str):
+                paragraphs = ast.literal_eval(transcript_raw)
+            elif isinstance(transcript_raw, list):
+                paragraphs = transcript_raw
+            elif hasattr(transcript_raw, 'tolist'):
+                paragraphs = transcript_raw.tolist()
+            else:
+                logger.warning(f"Unexpected type for transcripts: {row['symbol']} {row['report_date']} {type(transcript_raw)}")
+                continue
+            
+            for p in paragraphs:
+                p_num = p.get('paragraph_number')
+                speaker = p.get('speaker')
+                content_text = p.get('content')
                 
-                if transcript_id in existing_ids:
-                    continue
-                
-                new_calls_count += 1
-                
-                # 2. Extract Metadata
-                metadata_rows.append({
+                content_rows.append({
                     'transcript_id': transcript_id,
-                    'symbol': row['symbol'],
-                    'report_date': row['report_date'],
-                    'fiscal_year': row['fiscal_year'],
-                    'fiscal_quarter': row['fiscal_quarter']
+                    'paragraph_number': p_num,
+                    'speaker': speaker,
+                    'content': content_text
                 })
 
-                # 3. Extract Content
-                transcript_raw = row['transcripts']
-                
-                if isinstance(transcript_raw, str):
-                    paragraphs = ast.literal_eval(transcript_raw)
-                elif isinstance(transcript_raw, list):
-                    paragraphs = transcript_raw
-                elif hasattr(transcript_raw, 'tolist'):
-                    paragraphs = transcript_raw.tolist()
-                else:
-                    logger.warning(f"Unexpected type for transcripts: {row['symbol']} {row['report_date']} {type(transcript_raw)}")
-                    continue
-                
-                for p in paragraphs:
-                    content_rows.append({
-                        'transcript_id': transcript_id,
-                        'paragraph_number': p.get('paragraph_number'),
-                        'speaker': p.get('speaker'),
-                        'content': p.get('content')
-                    })
+        except (ValueError, SyntaxError) as e:
+            logger.error(f"Error parsing transcript for {row['symbol']} on {row['report_date']}: {e}")
+            continue
 
-            except (ValueError, SyntaxError) as e:
-                logger.error(f"Error parsing transcript for {row['symbol']} on {row['report_date']}: {e}")
-                continue
+    if new_calls_count == 0:
+        logger.info("No new calls found for local DB.")
+        return
 
-        if new_calls_count == 0:
-            logger.info("No new calls found. Everything is up to date.")
+    # SAVE TO LOCAL
+    if metadata_rows:
+        logger.info(f"Saving {len(metadata_rows)} new calls to SQLite and CSV...")
+        metadata_df = pd.DataFrame(metadata_rows).drop_duplicates()
+        content_df = pd.DataFrame(content_rows)
+
+        db_utils.insert_metadata(metadata_df)
+        db_utils.insert_content(content_df)
+        
+        # Save to CSVs (Append mode)
+        metadata_file = 'transcripts_metadata.csv'
+        content_file = 'transcripts_content.csv'
+        
+        if os.path.exists(metadata_file):
+            metadata_df.to_csv(metadata_file, mode='a', header=False, index=False)
         else:
-            logger.info(f"Found {new_calls_count} new calls. Saving to database and CSVs...")
+            metadata_df.to_csv(metadata_file, index=False)
             
-            # Create DataFrames
-            metadata_df = pd.DataFrame(metadata_rows).drop_duplicates()
-            content_df = pd.DataFrame(content_rows)
+        if os.path.exists(content_file):
+            content_df.to_csv(content_file, mode='a', header=False, index=False)
+        else:
+            content_df.to_csv(content_file, index=False)
 
-            # Save to SQLite
-            db_utils.insert_metadata(metadata_df)
-            db_utils.insert_content(content_df)
-            logger.info(f"Saved {new_calls_count} calls to SQLite.")
+    # SAVE TO BQ
+    if metadata_rows: # Use metadata_rows check since we want to sync
+        logger.info(f"Saving {len(metadata_rows)} new calls to BigQuery...")
+        try:
+             # Reuse the dataframes created for local storage since they match the schema (mostly)
+             # We might need to ensure BQ schema compat (date types etc), but load_table_from_dataframe handles a lot.
+             # Ensure 'report_date' is proper type if needed, but 'DATE' in BQ accepts strings or date objects.
+             
+             # Filter metadata_df for only what is needed in BQ if it differs, but here it's same.
+             
+             # We need to filter for ONLY IDs that were not in BQ. 
+             # In the loop we only added to metadata_rows if not in LOCAL. 
+             # Just to be safe and efficient, we should re-filter or assume if it wasn't in local it likely wasn't in BQ (or we backfill).
+             # But let's respect existing_ids_bq check.
+             
+             bq_metadata_df = metadata_df[~metadata_df['transcript_id'].isin(existing_ids_bq)]
+             bq_content_df = content_df[~content_df['transcript_id'].isin(existing_ids_bq)]
+             
+             if not bq_metadata_df.empty:
+                 db_cloud_utils.insert_metadata_bq(PROJECT_ID, DATASET_ID, bq_metadata_df)
+                 db_cloud_utils.insert_content_bq(PROJECT_ID, DATASET_ID, bq_content_df)
+                 logger.info(f"Saved {len(bq_metadata_df)} calls to BigQuery.")
+             else:
+                 logger.info("No new calls for BigQuery (all existed).")
 
-            # Save to CSVs (Append mode)
-            metadata_file = 'transcripts_metadata.csv'
-            content_file = 'transcripts_content.csv'
-            
-            # Save Metadata CSV
-            if os.path.exists(metadata_file):
-                metadata_df.to_csv(metadata_file, mode='a', header=False, index=False)
-            else:
-                metadata_df.to_csv(metadata_file, index=False)
-                
-            # Save Content CSV
-            if os.path.exists(content_file):
-                content_df.to_csv(content_file, mode='a', header=False, index=False)
-            else:
-                content_df.to_csv(content_file, index=False)
-            
-            logger.info(f"Successfully appended {new_calls_count} calls to CSV logs.")
+        except Exception as e:
+            logger.error(f"Failed to save to BigQuery: {e}")
 
-except Exception as e:
-    logger.exception(f"An unexpected error occurred: {e}")
+
+if __name__ == "__main__":
+    # Argument parsing
+    parser = argparse.ArgumentParser(description='Retrieve earning call transcripts.')
+    parser.add_argument('--tickers', type=str, default='tickers.csv', help='Path to CSV file containing tickers')
+    parser.add_argument('--months', type=int, help='Number of months back to retrieve data for')
+    args = parser.parse_args()
+
+    collect_transcripts(args.tickers, args.months)

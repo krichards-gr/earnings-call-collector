@@ -1,0 +1,7 @@
+pandas
+duckdb
+requests
+google-cloud-bigquery
+db-dtypes
+functions-framework
+defeatbeta-api
