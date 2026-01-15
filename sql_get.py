@@ -30,12 +30,16 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
     start_date: Specific start date (YYYY-MM-DD). Overrides months.
     """
     
-    # Initialize clients
-    duckdb_client = DuckDBClient(log_level=logging.INFO, config=Configuration(threads=8))
-    huggingface_client = HuggingFaceClient()
-
     # Check if running in Cloud Run (K_SERVICE is set automatically)
     is_cloud_run = os.environ.get('K_SERVICE') is not None
+    
+    # Initialize clients with appropriate thread count based on environment
+    if is_cloud_run:
+        duckdb_client = DuckDBClient(log_level=logging.INFO, config=Configuration(threads=1))
+    else:
+        duckdb_client = DuckDBClient(log_level=logging.INFO, config=Configuration(threads=8))
+    
+    huggingface_client = HuggingFaceClient()
 
     existing_ids_local = set()
     if not is_cloud_run:
