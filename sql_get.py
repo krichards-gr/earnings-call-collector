@@ -177,7 +177,7 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
             continue
 
     if new_calls_count == 0:
-        logger.info("No new calls found for local DB.")
+        logger.info("No new calls found to process.")
         return
 
     # SAVE TO LOCAL
