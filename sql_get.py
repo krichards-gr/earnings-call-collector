@@ -41,13 +41,7 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
     
     huggingface_client = HuggingFaceClient()
 
-    existing_ids_local = set()
-    if not is_cloud_run:
-        # Initialize DBs
-        db_utils.initialize_db()
-        existing_ids_local = db_utils.get_existing_ids()
-    
-    # Try to get BQ existing IDs
+    # Always load BigQuery IDs as the primary deduplication source
     try:
         existing_ids_bq = db_cloud_utils.get_existing_ids_bq(PROJECT_ID, DATASET_ID)
         logger.info(f"Loaded {len(existing_ids_bq)} existing transcript IDs from BigQuery.")
@@ -56,7 +50,14 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
         logger.error("Aborting to prevent duplicate data insertion.")
         return
 
-    logger.info(f"Loaded {len(existing_ids_local)} existing transcript IDs from local database.")
+    # Only initialize local DB for local execution
+    existing_ids_local = set()
+    if not is_cloud_run:
+        db_utils.initialize_db()
+        existing_ids_local = db_utils.get_existing_ids()
+        logger.info(f"Loaded {len(existing_ids_local)} existing transcript IDs from local database.")
+    else:
+        logger.info("Running in Cloud Run: Skipping local database operations.")
 
     # Date logic
     if start_date:
@@ -118,12 +119,12 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
             id_str = f"{row['symbol']}{row['report_date']}"
             transcript_id = hashlib.md5(id_str.encode()).hexdigest()
             
-            # User Request: BQ is the main source.
+            # BigQuery is the authoritative source for deduplication (both Cloud Run and local)
             if transcript_id in existing_ids_bq:
                 continue
             
-            # Note: We do NOT skip even if it is in existing_ids_local, 
-            # because we might need to backfill BQ. 
+            # Note: Local DB IDs are NOT checked for skipping - this allows backfilling BQ from local runs
+ 
             
             new_calls_count += 1
             
