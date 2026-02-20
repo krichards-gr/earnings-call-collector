@@ -1,0 +1,10 @@
+ecc_env/
+.git/
+.gitignore
+.gcloudignore
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+*.env
+.env
