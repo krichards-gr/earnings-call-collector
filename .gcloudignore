@@ -1,0 +1,21 @@
+# This file specifies files that are *not* uploaded to Google Cloud Build.
+# See https://cloud.google.com/sdk/gcloud/reference/topic/gcloudignore
+
+.gcloudignore
+
+# Local virtual environment
+ecc_env/
+
+# Git
+.git/
+.gitignore
+
+# Python caches
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# Local dev files
+*.env
+.env
