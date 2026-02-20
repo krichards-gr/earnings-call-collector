@@ -15,7 +15,7 @@ def entry_point(request):
         The response text, or any set of values that can be turned into a
         Response object using `make_response`.
     """
-    request_json = request.get_json(silent=True)
+    request_json = request.get_json(silent=True, force=True)
     request_args = request.args
 
     tickers_source = 'tickers.csv' # Default to included file
