@@ -4,7 +4,8 @@ A production-grade tool to retrieve, process, and normalize earnings call transc
 
 ## Overview
 
-This tool fetches earnings call transcripts for specified stock tickers, normalizes the data into a relational structure (Metadata + Content), and stores it with intelligent deduplication.
+This tool programmatically fetches earnings call transcripts for specified stock tickers, normalizes the data into a relational structure (Metadata + Content), and stores it with intelligent deduplication.
+
 
 ### Architecture
 
