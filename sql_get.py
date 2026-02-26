@@ -29,215 +29,222 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
     months: Number of months back to retrieve.
     start_date: Specific start date (YYYY-MM-DD). Overrides months.
     """
-    
+
     # Check if running in Cloud Run (K_SERVICE is set automatically)
     is_cloud_run = os.environ.get('K_SERVICE') is not None
-    
+
     # Initialize clients with appropriate thread count based on environment
     if is_cloud_run:
         duckdb_client = DuckDBClient(log_level=logging.INFO, config=Configuration(threads=1))
     else:
         duckdb_client = DuckDBClient(log_level=logging.INFO, config=Configuration(threads=8))
-    
+
     huggingface_client = HuggingFaceClient()
 
-    # Always load BigQuery IDs as the primary deduplication source
     try:
-        existing_ids_bq = db_cloud_utils.get_existing_ids_bq(PROJECT_ID, DATASET_ID)
-        logger.info(f"Loaded {len(existing_ids_bq)} existing transcript IDs from BigQuery.")
-    except Exception as e:
-        logger.error(f"Critical Error: Could not load BQ IDs: {e}")
-        logger.error("Aborting to prevent duplicate data insertion.")
-        return
-
-    # Only initialize local DB for local execution
-    existing_ids_local = set()
-    if not is_cloud_run:
-        db_utils.initialize_db()
-        existing_ids_local = db_utils.get_existing_ids()
-        logger.info(f"Loaded {len(existing_ids_local)} existing transcript IDs from local database.")
-    else:
-        logger.info("Running in Cloud Run: Skipping local database operations.")
-
-    # Date logic
-    if start_date:
-        cutoff_date = start_date
-        logger.info(f"Retrieving data since {cutoff_date}")
-    elif months:
-        cutoff_date = (datetime.date.today() - datetime.timedelta(days=months*30)).strftime('%Y-%m-%d')
-        logger.info(f"Retrieving data from last {months} months (since {cutoff_date})")
-    else:
-        cutoff_date = '2024-01-01'
-        logger.info(f"Retrieving data since {cutoff_date}")
-
-    # Read tickers
-    tickers = []
-    if isinstance(tickers_source, list):
-        tickers = tickers_source
-    elif isinstance(tickers_source, str):
+        # Always load BigQuery IDs as the primary deduplication source
         try:
-            tickers_df = pd.read_csv(tickers_source)
-            if 'symbol' in tickers_df.columns:
-                tickers = tickers_df['symbol'].tolist()
-            elif 'ticker' in tickers_df.columns:
-                tickers = tickers_df['ticker'].tolist()
-            else:
-                tickers = tickers_df.iloc[:, 0].tolist()
+            existing_ids_bq = db_cloud_utils.get_existing_ids_bq(PROJECT_ID, DATASET_ID)
+            logger.info(f"Loaded {len(existing_ids_bq)} existing transcript IDs from BigQuery.")
         except Exception as e:
-            logger.error(f"Error reading tickers file: {e}")
+            logger.error(f"Critical Error: Could not load BQ IDs: {e}")
+            logger.error("Aborting to prevent duplicate data insertion.")
             return
-            
-    if not tickers:
-        logger.warning("No tickers found to process.")
-        return
 
-    tickers_str = ", ".join([f"'{t}'" for t in tickers])
-    logger.info(f"Querying for {len(tickers)} tickers.")
+        # Only initialize local DB for local execution
+        existing_ids_local = set()
+        if not is_cloud_run:
+            db_utils.initialize_db()
+            existing_ids_local = db_utils.get_existing_ids()
+            logger.info(f"Loaded {len(existing_ids_local)} existing transcript IDs from local database.")
+        else:
+            logger.info("Running in Cloud Run: Skipping local database operations.")
 
-    # Get data URL
-    url = huggingface_client.get_url_path(stock_earning_call_transcripts)
+        # Date logic
+        if start_date:
+            cutoff_date = start_date
+            logger.info(f"Retrieving data since {cutoff_date}")
+        elif months:
+            cutoff_date = (datetime.date.today() - datetime.timedelta(days=months*30)).strftime('%Y-%m-%d')
+            logger.info(f"Retrieving data from last {months} months (since {cutoff_date})")
+        else:
+            cutoff_date = '2024-01-01'
+            logger.info(f"Retrieving data since {cutoff_date}")
 
-    # Construct SQL query
-    sql = f"SELECT * FROM '{url}' WHERE symbol IN ({tickers_str}) AND CAST(report_date AS DATE) >= '{cutoff_date}'"
+        # Read tickers
+        tickers = []
+        if isinstance(tickers_source, list):
+            tickers = tickers_source
+        elif isinstance(tickers_source, str):
+            try:
+                tickers_df = pd.read_csv(tickers_source)
+                if 'symbol' in tickers_df.columns:
+                    tickers = tickers_df['symbol'].tolist()
+                elif 'ticker' in tickers_df.columns:
+                    tickers = tickers_df['ticker'].tolist()
+                else:
+                    tickers = tickers_df.iloc[:, 0].tolist()
+            except Exception as e:
+                logger.error(f"Error reading tickers file: {e}")
+                return
 
-    logger.info("Executing DuckDB query...")
-    result = duckdb_client.query(sql)
+        if not tickers:
+            logger.warning("No tickers found to process.")
+            return
 
-    if result.empty:
-        logger.info("No transcripts found for the specified criteria.")
-        return
+        tickers_str = ", ".join([f"'{t}'" for t in tickers])
+        logger.info(f"Querying for {len(tickers)} tickers.")
 
-    logger.info(f"Retrieved {len(result)} potential matches. Processing for new calls...")
-    
-    metadata_rows = []
-    content_rows = []
-    new_calls_count = 0
+        # Get data URL
+        url = huggingface_client.get_url_path(stock_earning_call_transcripts)
 
-    for index, row in result.iterrows():
-        try:
-            # 1. Identity and Deduplication
-            id_str = f"{row['symbol']}{row['report_date']}"
-            transcript_id = hashlib.md5(id_str.encode()).hexdigest()
-            
-            # BigQuery is the authoritative source for deduplication (both Cloud Run and local)
-            if transcript_id in existing_ids_bq:
-                continue
-            
-            # Note: Local DB IDs are NOT checked for skipping - this allows backfilling BQ from local runs
- 
-            
-            new_calls_count += 1
-            
-            # 2. Extract Metadata
-            metadata_rows.append({
-                'transcript_id': transcript_id,
-                'symbol': row['symbol'],
-                'report_date': row['report_date'],
-                'fiscal_year': row['fiscal_year'],
-                'fiscal_quarter': row['fiscal_quarter']
-            })
-            
-            # BQ Doc Init
-            bq_doc = {
-                'transcript_id': transcript_id,
-                'symbol': row['symbol'],
-                'report_date': str(row['report_date']), # Ensure string for BQ DATE
-                'fiscal_year': row['fiscal_year'],
-                'fiscal_quarter': row['fiscal_quarter'],
-                'content': []
-            }
+        # Construct SQL query
+        sql = f"SELECT * FROM '{url}' WHERE symbol IN ({tickers_str}) AND CAST(report_date AS DATE) >= '{cutoff_date}'"
 
-            # 3. Extract Content
-            transcript_raw = row['transcripts']
-            
-            if isinstance(transcript_raw, str):
-                paragraphs = ast.literal_eval(transcript_raw)
-            elif isinstance(transcript_raw, list):
-                paragraphs = transcript_raw
-            elif hasattr(transcript_raw, 'tolist'):
-                paragraphs = transcript_raw.tolist()
-            else:
-                logger.warning(f"Unexpected type for transcripts: {row['symbol']} {row['report_date']} {type(transcript_raw)}")
-                continue
-            
-            for p in paragraphs:
-                p_num = p.get('paragraph_number')
-                speaker = p.get('speaker')
-                content_text = p.get('content')
-                
-                content_rows.append({
+        logger.info("Executing DuckDB query...")
+        result = duckdb_client.query(sql)
+
+        if result.empty:
+            logger.info("No transcripts found for the specified criteria.")
+            return
+
+        logger.info(f"Retrieved {len(result)} potential matches. Processing for new calls...")
+
+        metadata_rows = []
+        content_rows = []
+        new_calls_count = 0
+
+        for index, row in result.iterrows():
+            try:
+                # 1. Identity and Deduplication
+                id_str = f"{row['symbol']}{row['report_date']}"
+                transcript_id = hashlib.md5(id_str.encode()).hexdigest()
+
+                # BigQuery is the authoritative source for deduplication (both Cloud Run and local)
+                if transcript_id in existing_ids_bq:
+                    continue
+
+                # Note: Local DB IDs are NOT checked for skipping - this allows backfilling BQ from local runs
+
+
+                new_calls_count += 1
+
+                # 2. Extract Metadata
+                metadata_rows.append({
                     'transcript_id': transcript_id,
-                    'paragraph_number': p_num,
-                    'speaker': speaker,
-                    'content': content_text
+                    'symbol': row['symbol'],
+                    'report_date': row['report_date'],
+                    'fiscal_year': row['fiscal_year'],
+                    'fiscal_quarter': row['fiscal_quarter']
                 })
 
-        except (ValueError, SyntaxError) as e:
-            logger.error(f"Error parsing transcript for {row['symbol']} on {row['report_date']}: {e}")
-            continue
+                # BQ Doc Init
+                bq_doc = {
+                    'transcript_id': transcript_id,
+                    'symbol': row['symbol'],
+                    'report_date': str(row['report_date']), # Ensure string for BQ DATE
+                    'fiscal_year': row['fiscal_year'],
+                    'fiscal_quarter': row['fiscal_quarter'],
+                    'content': []
+                }
 
-    if new_calls_count == 0:
-        logger.info("No new calls found to process.")
-        return
+                # 3. Extract Content
+                transcript_raw = row['transcripts']
 
-    # SAVE TO LOCAL
-    # We must only write to local if it doesn't exist locally (to avoid UNIQUE constraint fail)
-    # even though we processed it for the sake of BQ.
-    
-    # Check if running in Cloud Run (K_SERVICE is set automatically)
-    # is_cloud_run is already defined at top of function
-    
-    # Filter for local
-    local_metadata_rows = [r for r in metadata_rows if r['transcript_id'] not in existing_ids_local]
-    local_content_rows = [r for r in content_rows if r['transcript_id'] not in existing_ids_local]
+                if isinstance(transcript_raw, str):
+                    paragraphs = ast.literal_eval(transcript_raw)
+                elif isinstance(transcript_raw, list):
+                    paragraphs = transcript_raw
+                elif hasattr(transcript_raw, 'tolist'):
+                    paragraphs = transcript_raw.tolist()
+                else:
+                    logger.warning(f"Unexpected type for transcripts: {row['symbol']} {row['report_date']} {type(transcript_raw)}")
+                    continue
 
-    if not is_cloud_run and local_metadata_rows:
-        logger.info(f"Saving {len(local_metadata_rows)} new calls to SQLite and CSV...")
-        metadata_df = pd.DataFrame(local_metadata_rows).drop_duplicates()
-        content_df = pd.DataFrame(local_content_rows)
+                for p in paragraphs:
+                    p_num = p.get('paragraph_number')
+                    speaker = p.get('speaker')
+                    content_text = p.get('content')
 
-        db_utils.insert_metadata(metadata_df)
-        db_utils.insert_content(content_df)
-        
-        # Save to CSVs (Append mode)
-        metadata_file = 'transcripts_metadata.csv'
-        content_file = 'transcripts_content.csv'
-        
-        if os.path.exists(metadata_file):
-            metadata_df.to_csv(metadata_file, mode='a', header=False, index=False)
+                    content_rows.append({
+                        'transcript_id': transcript_id,
+                        'paragraph_number': p_num,
+                        'speaker': speaker,
+                        'content': content_text
+                    })
+
+            except (ValueError, SyntaxError) as e:
+                logger.error(f"Error parsing transcript for {row['symbol']} on {row['report_date']}: {e}")
+                continue
+
+        if new_calls_count == 0:
+            logger.info("No new calls found to process.")
+            return
+
+        # SAVE TO LOCAL
+        # We must only write to local if it doesn't exist locally (to avoid UNIQUE constraint fail)
+        # even though we processed it for the sake of BQ.
+
+        # Check if running in Cloud Run (K_SERVICE is set automatically)
+        # is_cloud_run is already defined at top of function
+
+        # Filter for local
+        local_metadata_rows = [r for r in metadata_rows if r['transcript_id'] not in existing_ids_local]
+        local_content_rows = [r for r in content_rows if r['transcript_id'] not in existing_ids_local]
+
+        if not is_cloud_run and local_metadata_rows:
+            logger.info(f"Saving {len(local_metadata_rows)} new calls to SQLite and CSV...")
+            metadata_df = pd.DataFrame(local_metadata_rows).drop_duplicates()
+            content_df = pd.DataFrame(local_content_rows)
+
+            db_utils.insert_metadata(metadata_df)
+            db_utils.insert_content(content_df)
+
+            # Save to CSVs (Append mode)
+            metadata_file = 'transcripts_metadata.csv'
+            content_file = 'transcripts_content.csv'
+
+            if os.path.exists(metadata_file):
+                metadata_df.to_csv(metadata_file, mode='a', header=False, index=False)
+            else:
+                metadata_df.to_csv(metadata_file, index=False)
+
+            if os.path.exists(content_file):
+                content_df.to_csv(content_file, mode='a', header=False, index=False)
+            else:
+                content_df.to_csv(content_file, index=False)
+        elif is_cloud_run:
+            logger.info("Running in Cloud Run: Skipping local DB/CSV writes (ephemeral storage).")
         else:
-            metadata_df.to_csv(metadata_file, index=False)
-            
-        if os.path.exists(content_file):
-            content_df.to_csv(content_file, mode='a', header=False, index=False)
-        else:
-            content_df.to_csv(content_file, index=False)
-    elif is_cloud_run:
-        logger.info("Running in Cloud Run: Skipping local DB/CSV writes (ephemeral storage).")
-    else:
-        logger.info("All processed calls already exist in local DB (skipping local write).")
+            logger.info("All processed calls already exist in local DB (skipping local write).")
 
-    # SAVE TO BQ
-    if metadata_rows: 
-        logger.info(f"Saving {len(metadata_rows)} new calls to BigQuery...")
+        # SAVE TO BQ
+        if metadata_rows:
+            logger.info(f"Saving {len(metadata_rows)} new calls to BigQuery...")
+            try:
+                 # Since we controlled the loop using existing_ids_bq, everything in metadata_rows
+                 # is strictly NEW for BigQuery. We can write it all.
+
+                 bq_metadata_df = pd.DataFrame(metadata_rows).drop_duplicates()
+                 # Ensure report_date is proper datetime for BigQuery/PyArrow
+                 if not bq_metadata_df.empty:
+                     bq_metadata_df['report_date'] = pd.to_datetime(bq_metadata_df['report_date'])
+
+                 bq_content_df = pd.DataFrame(content_rows)
+
+                 if not bq_metadata_df.empty:
+                     db_cloud_utils.insert_metadata_bq(PROJECT_ID, DATASET_ID, bq_metadata_df)
+                     db_cloud_utils.insert_content_bq(PROJECT_ID, DATASET_ID, bq_content_df)
+                     logger.info(f"Saved {len(bq_metadata_df)} calls to BigQuery.")
+
+            except Exception as e:
+                logger.error(f"Failed to save to BigQuery: {e}")
+
+    finally:
         try:
-             # Since we controlled the loop using existing_ids_bq, everything in metadata_rows
-             # is strictly NEW for BigQuery. We can write it all.
-             
-             bq_metadata_df = pd.DataFrame(metadata_rows).drop_duplicates()
-             # Ensure report_date is proper datetime for BigQuery/PyArrow
-             if not bq_metadata_df.empty:
-                 bq_metadata_df['report_date'] = pd.to_datetime(bq_metadata_df['report_date'])
-                 
-             bq_content_df = pd.DataFrame(content_rows)
-             
-             if not bq_metadata_df.empty:
-                 db_cloud_utils.insert_metadata_bq(PROJECT_ID, DATASET_ID, bq_metadata_df)
-                 db_cloud_utils.insert_content_bq(PROJECT_ID, DATASET_ID, bq_content_df)
-                 logger.info(f"Saved {len(bq_metadata_df)} calls to BigQuery.")
-
-        except Exception as e:
-            logger.error(f"Failed to save to BigQuery: {e}")
+            duckdb_client.close()
+        except Exception:
+            pass
 
 
 if __name__ == "__main__":
