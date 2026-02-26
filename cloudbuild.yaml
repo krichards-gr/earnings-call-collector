@@ -1,0 +1,31 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/sri-benchmarking-databases/cloud-run-source-deploy/earnings-call-collector/earnings-call-collection:$COMMIT_SHA'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/sri-benchmarking-databases/cloud-run-source-deploy/earnings-call-collector/earnings-call-collection:latest'
+      - '.'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '--all-tags'
+      - 'us-central1-docker.pkg.dev/sri-benchmarking-databases/cloud-run-source-deploy/earnings-call-collector/earnings-call-collection'
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'earnings-call-collection'
+      - '--image'
+      - 'us-central1-docker.pkg.dev/sri-benchmarking-databases/cloud-run-source-deploy/earnings-call-collector/earnings-call-collection:$COMMIT_SHA'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+
+images:
+  - 'us-central1-docker.pkg.dev/sri-benchmarking-databases/cloud-run-source-deploy/earnings-call-collector/earnings-call-collection'
