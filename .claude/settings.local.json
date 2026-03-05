@@ -7,7 +7,8 @@
       "Bash(gcloud run services list:*)",
       "Bash(gcloud projects list:*)",
       "Bash(pip show:*)",
-      "Bash(python -c:*)"
+      "Bash(python -c:*)",
+      "Bash(gh run:*)"
     ]
   }
 }
