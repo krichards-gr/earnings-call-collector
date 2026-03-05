@@ -93,7 +93,7 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
             return
 
         tickers_str = ", ".join([f"'{t}'" for t in tickers])
-        logger.info(f"Querying for {len(tickers)} tickers.")
+        logger.info(f"Querying for {len(tickers)} tickers. First 5: {tickers[:5]}, Last 5: {tickers[-5:]}")
 
         # Get data URL
         url = huggingface_client.get_url_path(stock_earning_call_transcripts)
