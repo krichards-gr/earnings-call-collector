@@ -29,3 +29,6 @@ steps:
 
 images:
   - 'us-central1-docker.pkg.dev/sri-benchmarking-databases/cloud-run-source-deploy/earnings-call-collector/earnings-call-collection'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
