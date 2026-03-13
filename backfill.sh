@@ -4,10 +4,6 @@ set -e
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 cd "$SCRIPT_DIR"
 
-if [ -d "venv_wsl" ]; then
-    rm -rf venv_wsl
-fi
-
 echo "Installing requirements (user scope)..."
 pip3 install --user -r requirements.txt --break-system-packages || pip3 install --user -r requirements.txt
 
@@ -22,5 +18,5 @@ if ! gcloud auth application-default print-access-token >/dev/null 2>&1; then
     gcloud auth application-default login
 fi
 
-echo "Running SQL retrieval script..."
-python3 sql_get.py "$@"
+echo "Running content backfill..."
+python3 backfill_content.py

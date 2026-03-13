@@ -8,7 +8,11 @@
       "Bash(gcloud projects list:*)",
       "Bash(pip show:*)",
       "Bash(python -c:*)",
-      "Bash(gh run:*)"
+      "Bash(gh run:*)",
+      "Bash(.\\\\ecc_env\\\\Scripts\\\\pip.exe show:*)",
+      "Bash(cmd:*)",
+      "Bash(powershell:*)",
+      "Bash(wsl sed:*)"
     ]
   }
 }

@@ -22,6 +22,73 @@ logger = logging.getLogger(__name__)
 PROJECT_ID = "sri-benchmarking-databases"
 DATASET_ID = "pressure_monitoring"
 
+def _fetch_and_insert_orphan_content(duckdb_client, huggingface_client, orphans):
+    """Fetch and insert content rows for orphaned metadata entries."""
+    logger.info(f"Backfilling content for {len(orphans)} orphaned transcript(s)...")
+
+    orphan_map = {o["transcript_id"]: o for o in orphans}
+    symbols = list({o["symbol"] for o in orphans})
+    dates = list({str(o["report_date"]) for o in orphans})
+
+    symbols_str = ", ".join(f"'{s}'" for s in symbols)
+    dates_str = ", ".join(f"'{d}'" for d in dates)
+
+    url = huggingface_client.get_url_path(stock_earning_call_transcripts)
+    sql = (
+        f"SELECT * FROM '{url}'"
+        f" WHERE symbol IN ({symbols_str})"
+        f" AND CAST(report_date AS DATE) IN ({dates_str})"
+    )
+
+    result = duckdb_client.query(sql)
+    if result.empty:
+        logger.warning("DuckDB returned no rows for orphan backfill query.")
+        return
+
+    content_rows = []
+    matched = 0
+
+    for _, row in result.iterrows():
+        id_str = f"{row['symbol']}{row['report_date']}"
+        transcript_id = hashlib.md5(id_str.encode()).hexdigest()
+
+        if transcript_id not in orphan_map:
+            continue
+
+        matched += 1
+        transcript_raw = row['transcripts']
+
+        if isinstance(transcript_raw, str):
+            try:
+                paragraphs = ast.literal_eval(transcript_raw)
+            except (ValueError, SyntaxError) as e:
+                logger.error(f"Error parsing orphan transcript {transcript_id}: {e}")
+                continue
+        elif isinstance(transcript_raw, list):
+            paragraphs = transcript_raw
+        elif hasattr(transcript_raw, 'tolist'):
+            paragraphs = transcript_raw.tolist()
+        else:
+            logger.warning(f"Unexpected transcript type for orphan {transcript_id}: {type(transcript_raw)}")
+            continue
+
+        for p in paragraphs:
+            content_rows.append({
+                'transcript_id': transcript_id,
+                'paragraph_number': p.get('paragraph_number'),
+                'speaker': p.get('speaker'),
+                'content': p.get('content'),
+            })
+
+    if not content_rows:
+        logger.warning("No content rows produced from orphan backfill query.")
+        return
+
+    content_df = pd.DataFrame(content_rows)
+    db_cloud_utils.insert_content_bq(PROJECT_ID, DATASET_ID, content_df)
+    logger.info(f"Orphan backfill complete: matched {matched}/{len(orphans)} transcripts, inserted {len(content_rows)} content rows.")
+
+
 def collect_transcripts(tickers_source, months=None, start_date=None):
     """
     Main logic to collect transcripts.
@@ -50,6 +117,12 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
             logger.error(f"Critical Error: Could not load BQ IDs: {e}")
             logger.error("Aborting to prevent duplicate data insertion.")
             return
+
+        # Heal any orphaned metadata rows (metadata without content) before new collection
+        orphans = db_cloud_utils.get_orphaned_metadata_bq(PROJECT_ID, DATASET_ID)
+        if orphans:
+            logger.info(f"Found {len(orphans)} orphaned metadata rows — backfilling content...")
+            _fetch_and_insert_orphan_content(duckdb_client, huggingface_client, orphans)
 
         # Only initialize local DB for local execution
         existing_ids_local = set()
@@ -137,16 +210,6 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
                     'fiscal_year': row['fiscal_year'],
                     'fiscal_quarter': row['fiscal_quarter']
                 })
-
-                # BQ Doc Init
-                bq_doc = {
-                    'transcript_id': transcript_id,
-                    'symbol': row['symbol'],
-                    'report_date': str(row['report_date']), # Ensure string for BQ DATE
-                    'fiscal_year': row['fiscal_year'],
-                    'fiscal_quarter': row['fiscal_quarter'],
-                    'content': []
-                }
 
                 # 3. Extract Content
                 transcript_raw = row['transcripts']

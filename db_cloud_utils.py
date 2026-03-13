@@ -78,6 +78,31 @@ def insert_content_bq(project_id, dataset_id, df):
     table_ref = f"{project_id}.{dataset_id}.earnings_call_transcript_content"
     _insert_rows_from_df(client, table_ref, df)
 
+def get_orphaned_metadata_bq(project_id, dataset_id):
+    """Returns metadata rows that have no corresponding content rows."""
+    client = get_client(project_id)
+    metadata_table = f"{project_id}.{dataset_id}.earnings_call_transcript_metadata"
+    content_table = f"{project_id}.{dataset_id}.earnings_call_transcript_content"
+
+    query = f"""
+        SELECT m.transcript_id, m.symbol, m.report_date
+        FROM `{metadata_table}` m
+        LEFT JOIN `{content_table}` c ON m.transcript_id = c.transcript_id
+        WHERE c.transcript_id IS NULL
+    """
+
+    try:
+        query_job = client.query(query)
+        results = query_job.result()
+        orphans = [
+            {"transcript_id": row.transcript_id, "symbol": row.symbol, "report_date": row.report_date}
+            for row in results
+        ]
+        return orphans
+    except Exception as e:
+        logger.warning(f"Could not fetch orphaned metadata rows: {e}")
+        return []
+
 def _insert_rows_from_df(client, table_ref, df):
     try:
         # data needs to be json-serializable (DATE objects -> str)
