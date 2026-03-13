@@ -1,501 +1,501 @@
-﻿Fortune 500 rank,Company,Sector,Industry,Ticker,Earnings call date
-86,Intel,Information Technology,Semiconductors & Semiconductor Equipment,INTC,2026-04-23
-357,Chewy,Consumer Discretionary,Specialty Retail,CHWY,2026-03-26
-449,PVH,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",PVH,2026-03-26
-497,Core & Main,Industrials,Trading Companies & Distributors,CNM,2026-03-24
-49,FedEx,Industrials,Air Freight & Logistics,FDX,2026-03-19
-90,Nike,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",NKE,2026-03-19
-170,Micron Technology,Information Technology,Semiconductors & Semiconductor Equipment,MU,2026-03-19
-370,Darden Restaurants,Consumer Discretionary,"Hotels, Restaurants & Leisure",DRI,2026-03-19
-401,Lululemon athletica,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",LULU,2026-03-19
-482,Williams-Sonoma,Consumer Discretionary,Specialty Retail,WSM,2026-03-19
-216,General Mills,Consumer Staples,Food Products,GIS,2026-03-18
-427,Cintas,Industrials,Commercial Services & Supplies,CTAS,2026-03-18
-148,Jabil,Information Technology,"Electronic Equipment, Instruments & Components",JBL,2026-03-17
-496,Science Applications International,Industrials,Professional Services,SAIC,2026-03-17
-112,Dollar General,Consumer Discretionary,Broadline Retail,DG,2026-03-12
-201,Adobe,Information Technology,Software,ADBE,2026-03-12
-375,Ulta Beauty,Consumer Discretionary,Specialty Retail,ULTA,2026-03-12
-261,Kohl's,Consumer Discretionary,Broadline Retail,KSS,2026-03-11
-318,DICK'S Sporting Goods,Consumer Discretionary,Specialty Retail,DKS,2026-03-11
-138,United Natural Foods,Consumer Staples,Consumer Staples Distribution & Retail,UNFI,2026-03-10
-146,Ferguson Enterprises,Industrials,Trading Companies & Distributors,FERG,2026-03-10
-458,ABM Industries,Industrials,Commercial Services & Supplies,ABM,2026-03-10
-87,Oracle,Information Technology,Software,ORCL,2026-03-09
-297,Casey's General Stores,Consumer Staples,Consumer Staples Distribution & Retail,CASY,2026-03-09
-415,Thor Industries,Consumer Discretionary,Automobile Components,THO,2026-03-09
-12,Costco Wholesale,Consumer Staples,Consumer Staples Distribution & Retail,COST,2026-03-05
-27,Kroger,Consumer Staples,Consumer Staples Distribution & Retail,KR,2026-03-05
-139,Dollar Tree,Consumer Discretionary,Broadline Retail,DLTR,2026-03-05
-143,Hewlett Packard Enterprise,Information Technology,"Technology Hardware, Storage & Peripherals",HPE,2026-03-05
-207,BJ's Wholesale Club,Consumer Staples,Consumer Staples Distribution & Retail,BJ,2026-03-05
-290,Gap,Consumer Discretionary,Specialty Retail,GAP,2026-03-05
-399,Burlington Stores,Consumer Discretionary,Specialty Retail,BURL,2026-03-05
-425,Campbell's,Consumer Staples,Food Products,CPB,2026-03-05
-473,Foot Locker,Consumer Discretionary,Specialty Retail,FL,2026-03-05
-488,ARKO,Consumer Discretionary,Specialty Retail,ARKO,2026-03-05
-108,Best Buy,Consumer Discretionary,Specialty Retail,BBY,2026-03-04
-193,Macy's,Consumer Discretionary,Broadline Retail,M,2026-03-04
-204,Ross Stores,Consumer Discretionary,Specialty Retail,ROST,2026-03-04
-227,AutoZone,Consumer Discretionary,Specialty Retail,AZO,2026-03-04
-291,Nordstrom,Consumer Discretionary,Broadline Retail,JWN,2026-03-04
-352,Hormel Foods,Consumer Staples,Food Products,HRL,2026-03-04
-41,Target,Consumer Staples,Consumer Staples Distribution & Retail,TGT,2026-03-03
-57,Progressive,Financials,Insurance,PGR,2026-03-03
-95,Ingram Micro Holding,Information Technology,"Electronic Equipment, Instruments & Components",INGM,2026-03-03
-120,Salesforce,Information Technology,Software,CRM,2026-03-03
-153,NRG Energy,Utilities,Independent Power and Renewable Electricity Producers,NRG,2026-02-27
-241,Vistra,Utilities,Independent Power and Renewable Electricity Producers,VST,2026-02-27
-244,Global Partners,Energy,"Oil, Gas & Consumable Fuels",GLP,2026-02-27
-342,MasTec,Industrials,Construction & Engineering,MTZ,2026-02-27
-343,AES,Utilities,Independent Power and Renewable Electricity Producers,AES,2026-02-27
-377,BrightSpring Health Services,Health Care,Health Care Providers & Services,BTSG,2026-02-27
-416,QVC Group,Consumer Discretionary,Broadline Retail,QVCD,2026-02-27
-417,Icahn Enterprises,Financials,Capital Markets,IEP,2026-02-27
-494,Monster Beverage,Consumer Staples,Beverages,MNST,2026-02-27
-44,Dell Technologies,Information Technology,"Technology Hardware, Storage & Peripherals",DELL,2026-02-26
-84,HP,Information Technology,"Technology Hardware, Storage & Peripherals",HPQ,2026-02-26
-88,Broadcom,Information Technology,Semiconductors & Semiconductor Equipment,AVGO,2026-02-26
-114,Warner Bros. Discovery,Communication Services,Entertainment,WBD,2026-02-26
-183,EOG Resources,Energy,"Oil, Gas & Consumable Fuels",EOG,2026-02-26
-271,Universal Health Services,Health Care,Health Care Providers & Services,UHS,2026-02-26
-298,Viatris,Health Care,Pharmaceuticals,VTRS,2026-02-26
-422,APA,Energy,"Oil, Gas & Consumable Fuels",APA,2026-02-26
-495,Endeavor Group Holdings,Communication Services,Entertainment,EDR,2026-02-26
-31,Nvidia,Information Technology,Semiconductors & Semiconductor Equipment,NVDA,2026-02-25
-52,Lowe's,Consumer Discretionary,Specialty Retail,LOW,2026-02-25
-76,TJX,Consumer Discretionary,Specialty Retail,TJX,2026-02-25
-142,Coupang,Consumer Discretionary,Broadline Retail,CPNG,2026-02-25
-235,Edison International,Utilities,Electric Utilities,EIX,2026-02-25
-292,Super Micro Computer,Information Technology,"Technology Hardware, Storage & Peripherals",SMCI,2026-02-25
-322,Sempra,Utilities,Multi-Utilities,SRE,2026-02-25
-336,Delek US Holdings,Energy,"Oil, Gas & Consumable Fuels",DK,2026-02-25
-389,Advance Auto Parts,Consumer Discretionary,Specialty Retail,AAP,2026-02-25
-411,Ebay,Consumer Discretionary,Broadline Retail,EBAY,2026-02-25
-455,Workday,Information Technology,Software,WDAY,2026-02-25
-466,J.M. Smucker,Consumer Staples,Food Products,SJM,2026-02-25
-474,Par Pacific Holdings,Energy,"Oil, Gas & Consumable Fuels",PARR,2026-02-25
-24,Home Depot,Consumer Discretionary,Specialty Retail,HD,2026-02-24
-147,Paramount Global,Communication Services,Entertainment,PARA,2026-02-24
-200,Oneok,Energy,"Oil, Gas & Consumable Fuels",OKE,2026-02-24
-383,Diamondback Energy,Energy,"Oil, Gas & Consumable Fuels",FANG,2026-02-24
-128,CBRE Group,Real Estate,Real Estate Management & Development,CBRE,2026-02-20
-150,HF Sinclair,Energy,"Oil, Gas & Consumable Fuels",DINO,2026-02-20
-179,Block,Financials,Financial Services,XYZ,2026-02-20
-184,Quanta Services,Industrials,Construction & Engineering,PWR,2026-02-20
-186,Constellation Energy,Utilities,Electric Utilities,CEG,2026-02-20
-190,Live Nation Entertainment,Communication Services,Entertainment,LYV,2026-02-20
-218,American Electric Power,Utilities,Electric Utilities,AEP,2026-02-20
-258,Intuit,Information Technology,Software,INTU,2026-02-20
-273,EchoStar,Communication Services,Diversified Telecommunication Services,SATS,2026-02-20
-275,Cheniere Energy,Energy,"Oil, Gas & Consumable Fuels",LNG,2026-02-20
-358,Wayfair,Consumer Discretionary,Specialty Retail,W,2026-02-20
-409,Public Service Enterprise Group,Utilities,Electric Utilities,PEG,2026-02-20
-481,Sprouts Farmers Market,Consumer Staples,Consumer Staples Distribution & Retail,SFM,2026-02-20
-1,Walmart,Consumer Staples,Consumer Staples Distribution & Retail,WMT,2026-02-19
-89,Deere,Industrials,Machinery,DE,2026-02-19
-158,Applied Materials,Information Technology,Semiconductors & Semiconductor Equipment,AMAT,2026-02-19
-161,Southern Company,Utilities,Electric Utilities,SO,2026-02-19
-182,Booking Holdings,Consumer Discretionary,"Hotels, Restaurants & Leisure",BKNG,2026-02-19
-197,Waste Management (WM),Industrials,Commercial Services & Supplies,WM,2026-02-19
-199,WESCO International,Industrials,Trading Companies & Distributors,WCC,2026-02-19
-225,Newmont,Materials,Metals & Mining,NEM,2026-02-19
-256,Targa Resources,Energy,"Oil, Gas & Consumable Fuels",TRGP,2026-02-19
-286,Consolidated Edison,Utilities,Multi-Utilities,ED,2026-02-19
-302,LKQ,Consumer Discretionary,Distributors,LKQ,2026-02-19
-304,Sonic Automotive,Consumer Discretionary,Specialty Retail,SAH,2026-02-19
-309,Reliance,Materials,Metals & Mining,RS,2026-02-19
-313,Fidelity National Financial,Financials,Insurance,FNF,2026-02-19
-314,Carvana,Consumer Discretionary,Specialty Retail,CVNA,2026-02-19
-326,FirstEnergy,Utilities,Electric Utilities,FE,2026-02-19
-333,Henry Schein,Health Care,Health Care Providers & Services,HSIC,2026-02-19
-384,American Tower,Real Estate,Specialized REITs,AMT,2026-02-19
-395,Owens & Minor,Health Care,Health Care Providers & Services,OMI,2026-02-19
-421,QXO Building Products,Industrials,Building Products,QXO,2026-02-19
-423,Gold.com,Materials,Metals & Mining,GLDG,2026-02-19
-428,SpartanNash,Consumer Staples,Consumer Staples Distribution & Retail,SPTN,2026-02-19
-450,CenterPoint Energy,Utilities,Electric Utilities,CNP,2026-02-19
-471,Vertiv Holdings,Industrials,Electrical Equipment,VRT,2026-02-19
-479,Rush Enterprises,Industrials,Trading Companies & Distributors,RUSHA,2026-02-19
-500,Vulcan Materials,Materials,Construction Materials,VMC,2026-02-19
-187,Genuine Parts,Consumer Discretionary,Distributors,GPC,2026-02-18
-257,Fluor,Industrials,Construction & Engineering,FLR,2026-02-18
-267,Devon Energy,Energy,"Oil, Gas & Consumable Fuels",DVN,2026-02-18
-274,Ecolab,Materials,Chemicals,ECL,2026-02-18
-335,Community Health Systems,Health Care,Health Care Providers & Services,CYH,2026-02-18
-345,Westlake,Materials,Chemicals,WLK,2026-02-18
-376,Caesars Entertainment,Consumer Discretionary,"Hotels, Restaurants & Leisure",CZR,2026-02-18
-381,Mosaic,Materials,Chemicals,MOS,2026-02-18
-390,Toll Brothers,Consumer Discretionary,Household Durables,TOL,2026-02-18
-400,Expeditors Intl. of Washington,Industrials,Air Freight & Logistics,EXPD,2026-02-18
-430,Analog Devices,Information Technology,Semiconductors & Semiconductor Equipment,ADI,2026-02-18
-438,Ovintiv,Energy,"Oil, Gas & Consumable Fuels",OVV,2026-02-18
-470,Palo Alto Networks,Information Technology,Software,PANW,2026-02-18
-480,KBR,Industrials,Professional Services,KBR,2026-02-18
-53,Energy Transfer,Energy,"Oil, Gas & Consumable Fuels",ET,2026-02-17
-254,Builders FirstSource,Industrials,Building Products,BLDR,2026-02-17
-378,Andersons,Consumer Staples,Food Products,ANDE,2026-02-17
-396,NVR,Consumer Discretionary,Household Durables,NVR,2026-02-17
-223,Goodyear Tire & Rubber,Consumer Discretionary,Automobile Components,GT,2026-02-14
-221,Cleveland-Cliffs,Materials,Metals & Mining,CLF,2026-02-13
-266,Republic Services,Industrials,Commercial Services & Supplies,RSG,2026-02-13
-300,EMCOR Group,Industrials,Construction & Engineering,EME,2026-02-13
-392,Motorola Solutions,Information Technology,Communications Equipment,MSI,2026-02-13
-454,PPL,Utilities,Electric Utilities,PPL,2026-02-13
-25,Fannie Mae,Financials,Financial Services,FNMA,2026-02-12
-38,Freddie Mac,Financials,Financial Services,FMCC,2026-02-12
-122,US Foods Holding,Consumer Staples,Consumer Staples Distribution & Retail,USFD,2026-02-12
-124,Lithia Motors,Consumer Discretionary,Specialty Retail,LAD,2026-02-12
-144,Duke Energy,Utilities,Electric Utilities,DUK,2026-02-12
-157,AIG,Financials,Insurance,AIG,2026-02-12
-159,Occidental Petroleum,Energy,"Oil, Gas & Consumable Fuels",OXY,2026-02-12
-166,Kraft Heinz,Consumer Staples,Food Products,KHC,2026-02-12
-176,PG&E,Utilities,Electric Utilities,PCG,2026-02-12
-192,Exelon,Utilities,Electric Utilities,EXC,2026-02-12
-205,CDW,Information Technology,"Electronic Equipment, Instruments & Components",CDW,2026-02-12
-214,Group 1 Automotive,Consumer Discretionary,Specialty Retail,GPI,2026-02-12
-219,GE HealthCare Technologies,Health Care,Health Care Equipment & Supplies,GEHC,2026-02-12
-224,Corebridge Financial,Financials,Insurance,CRBG,2026-02-12
-282,IQVIA Holdings,Health Care,Life Sciences Tools & Services,IQV,2026-02-12
-284,Keurig Dr Pepper,Consumer Staples,Beverages,KDP,2026-02-12
-307,BorgWarner,Consumer Discretionary,Automobile Components,BWA,2026-02-12
-328,Labcorp Holdings,Health Care,Health Care Providers & Services,LH,2026-02-12
-331,DaVita,Health Care,Health Care Providers & Services,DVA,2026-02-12
-337,DTE Energy,Utilities,Multi-Utilities,DTE,2026-02-12
-338,Equitable Holdings,Financials,Insurance,EQH,2026-02-12
-360,Avis Budget Group,Industrials,Ground Transportation,CAR,2026-02-12
-366,Molson Coors Beverage,Consumer Staples,Beverages,TAP,2026-02-12
-368,Huntington Ingalls Industries,Industrials,Aerospace & Defense,HII,2026-02-12
-380,Hilton Worldwide Holdings,Consumer Discretionary,"Hotels, Restaurants & Leisure",HLT,2026-02-12
-382,Airbnb,Consumer Discretionary,"Hotels, Restaurants & Leisure",ABNB,2026-02-12
-394,DoorDash,Consumer Discretionary,"Hotels, Restaurants & Leisure",DASH,2026-02-12
-397,Interpublic Group,Communication Services,Media,IPG,2026-02-12
-404,Williams,Energy,"Oil, Gas & Consumable Fuels",WMB,2026-02-12
-408,Westinghouse Air Brake Technologies,Industrials,Machinery,WAB,2026-02-12
-410,Dana,Consumer Discretionary,Automobile Components,DAN,2026-02-12
-412,Celanese,Materials,Chemicals,CE,2026-02-12
-413,Global Payments,Financials,Financial Services,GPN,2026-02-12
-424,Biogen,Health Care,Biotechnology,BIIB,2026-02-12
-435,Zoetis,Health Care,Pharmaceuticals,ZTS,2026-02-12
-437,Oscar Health,Health Care,Health Care Providers & Services,OSCR,2026-02-12
-447,Insight Enterprises,Information Technology,"Electronic Equipment, Instruments & Components",NSIT,2026-02-12
-39,Humana,Health Care,Health Care Providers & Services,HUM,2026-02-11
-83,Cisco Systems,Information Technology,Communications Equipment,CSCO,2026-02-11
-111,Molina Healthcare,Health Care,Health Care Providers & Services,MOH,2026-02-11
-115,CHS,Energy,"Oil, Gas & Consumable Fuels",CHSCP,2026-02-11
-160,AutoNation,Consumer Discretionary,Specialty Retail,AN,2026-02-11
-171,Marriott International,Consumer Discretionary,"Hotels, Restaurants & Leisure",MAR,2026-02-11
-188,Jones Lang LaSalle (JLL),Real Estate,Real Estate Management & Development,JLL,2026-02-11
-240,MGM Resorts International,Consumer Discretionary,"Hotels, Restaurants & Leisure",MGM,2026-02-11
-250,Leidos Holdings,Industrials,Professional Services,LDOS,2026-02-11
-264,Dominion Energy,Utilities,Electric Utilities,D,2026-02-11
-276,Omnicom Group,Communication Services,Media,OMC,2026-02-11
-353,Eversource Energy,Utilities,Electric Utilities,ES,2026-02-11
-363,GXO Logistics,Industrials,Air Freight & Logistics,GXO,2026-02-11
-364,AGCO,Industrials,Machinery,AGCO,2026-02-11
-446,Equinix,Real Estate,Specialized REITs,EQIX,2026-02-11
-478,Masco,Industrials,Building Products,MAS,2026-02-11
-486,Watsco,Industrials,Trading Companies & Distributors,WSO,2026-02-11
-5,CVS Health,Health Care,Health Care Providers & Services,CVS,2026-02-10
-19,Ford Motor,Consumer Discretionary,Automobiles,F,2026-02-10
-97,Coca-Cola,Consumer Staples,Beverages,KO,2026-02-10
-165,McDonald's,Consumer Discretionary,"Hotels, Restaurants & Leisure",MCD,2026-02-10
-206,Tenet Healthcare,Health Care,Health Care Providers & Services,THC,2026-02-10
-369,International Flavors & Fragrances,Materials,Chemicals,IFF,2026-02-10
-402,Fidelity National Information Services,Financials,Financial Services,FIS,2026-02-10
-440,Hertz Global Holdings,Industrials,Ground Transportation,HTZ,2026-02-10
-472,Welltower,Real Estate,Health Care REITs,WELL,2026-02-10
-237,Loews,Financials,Insurance,L,2026-02-09
-23,Centene,Health Care,Health Care Providers & Services,CNC,2026-02-06
-92,Plains GP Holdings,Energy,"Oil, Gas & Consumable Fuels",PAGP,2026-02-06
-119,Honeywell International,Industrials,Industrial Conglomerates,HON,2026-02-06
-305,S&P Global,Financials,Capital Markets,SPGI,2026-02-06
-306,Regeneron Pharmaceuticals,Health Care,Biotechnology,REGN,2026-02-06
-347,Air Products & Chemicals,Materials,Chemicals,APD,2026-02-06
-349,Ball,Materials,Containers & Packaging,BALL,2026-02-06
-361,Intercontinental Exchange,Financials,Capital Markets,ICE,2026-02-06
-379,Hershey,Consumer Staples,Food Products,HSY,2026-02-06
-385,Vertex Pharmaceuticals,Health Care,Biotechnology,VRTX,2026-02-06
-391,Mohawk Industries,Consumer Discretionary,Household Durables,MHK,2026-02-06
-414,News Corp.,Communication Services,Media,NWSA,2026-02-06
-477,Post Holdings,Consumer Staples,Food Products,POST,2026-02-06
-487,Newell Brands,Consumer Discretionary,Household Durables,NWL,2026-02-06
-493,CMS Energy,Utilities,Multi-Utilities,CMS,2026-02-06
-2,Amazon,Consumer Discretionary,Broadline Retail,AMZN,2026-02-05
-13,Cigna,Health Care,Health Care Providers & Services,CI,2026-02-05
-15,Cardinal Health,Health Care,Health Care Providers & Services,CAH,2026-02-05
-60,MetLife,Financials,Insurance,MET,2026-02-05
-66,Allstate,Financials,Insurance,ALL,2026-02-05
-75,ConocoPhillips,Energy,"Oil, Gas & Consumable Fuels",COP,2026-02-05
-94,Bristol-Myers Squibb,Health Care,Pharmaceuticals,BMY,2026-02-05
-121,Philip Morris International,Consumer Staples,Tobacco,PM,2026-02-05
-135,PBF Energy,Energy,"Oil, Gas & Consumable Fuels",PBF,2026-02-05
-141,Penske Automotive Group,Consumer Discretionary,Specialty Retail,PAG,2026-02-05
-154,Arrow Electronics,Information Technology,"Electronic Equipment, Instruments & Components",ARW,2026-02-05
-189,Lear,Consumer Discretionary,Automobile Components,LEA,2026-02-05
-211,Becton Dickinson,Health Care,Health Care Equipment & Supplies,BDX,2026-02-05
-217,Cognizant Technology Solutions,Information Technology,IT Services,CTSH,2026-02-05
-228,Lincoln National,Financials,Insurance,LNC,2026-02-05
-231,Murphy USA,Consumer Discretionary,Specialty Retail,MUSA,2026-02-05
-238,Emerson Electric,Industrials,Electrical Equipment,EMR,2026-02-05
-246,Corteva,Materials,Chemicals,CTVA,2026-02-05
-249,O'Reilly Automotive,Consumer Discretionary,Specialty Retail,ORLY,2026-02-05
-251,Markel Group,Financials,Insurance,MKL,2026-02-05
-265,Kyndryl Holdings,Information Technology,IT Services,KD,2026-02-05
-268,Illinois Tool Works,Industrials,Machinery,ITW,2026-02-05
-288,Baxter International,Health Care,Health Care Equipment & Supplies,BAX,2026-02-05
-308,Fox,Communication Services,Media,FOXA,2026-02-05
-312,Expedia Group,Consumer Discretionary,"Hotels, Restaurants & Leisure",EXPE,2026-02-05
-332,Kellanova,Consumer Staples,Food Products,K,2026-02-05
-334,Ryder System,Industrials,Ground Transportation,R,2026-02-05
-355,Entergy,Utilities,Electric Utilities,ETR,2026-02-05
-371,Cincinnati Financial,Financials,Insurance,CINF,2026-02-05
-419,Quest Diagnostics,Health Care,Health Care Providers & Services,DGX,2026-02-05
-441,Skechers U.S.A.,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",SKX,2026-02-05
-443,NOV,Energy,Energy Equipment & Services,NOV,2026-02-05
-460,American Financial Group,Financials,Insurance,AFG,2026-02-05
-462,Solventum,Health Care,Health Care Equipment & Supplies,SOLV,2026-02-05
-468,XPO,Industrials,Air Freight & Logistics,XPO,2026-02-05
-485,Microchip Technology,Information Technology,Semiconductors & Semiconductor Equipment,MCHP,2026-02-05
-491,Yum Brands,Consumer Discretionary,"Hotels, Restaurants & Leisure",YUM,2026-02-05
-7,Alphabet,Communication Services,Interactive Media & Services,GOOGL,2026-02-04
-9,McKesson,Health Care,Health Care Providers & Services,MCK,2026-02-04
-10,Cencora,Health Care,Health Care Providers & Services,COR,2026-02-04
-28,Phillips 66,Energy,"Oil, Gas & Consumable Fuels",PSX,2026-02-04
-42,StoneX Group,Financials,Capital Markets,SNEX,2026-02-04
-62,Prudential Financial (U.S.),Financials,Insurance,PRU,2026-02-04
-77,AbbVie,Health Care,Biotechnology,ABBV,2026-02-04
-80,Performance Food Group,Consumer Staples,Consumer Staples Distribution & Retail,PFGC,2026-02-04
-100,Eli Lilly,Health Care,Pharmaceuticals,LLY,2026-02-04
-101,Uber Technologies,Industrials,Ground Transportation,UBER,2026-02-04
-117,Qualcomm,Information Technology,Semiconductors & Semiconductor Equipment,QCOM,2026-02-04
-132,Cummins,Industrials,Machinery,CMI,2026-02-04
-134,Amgen,Health Care,Biotechnology,AMGN,2026-02-04
-137,PayPal Holdings,Financials,Financial Services,PYPL,2026-02-04
-145,KKR,Financials,Capital Markets,KKR,2026-02-04
-149,Gilead Sciences,Health Care,Biotechnology,GILD,2026-02-04
-163,Apollo Global Management,Financials,Capital Markets,APO,2026-02-04
-167,Advanced Micro Devices (AMD),Information Technology,Semiconductors & Semiconductor Equipment,AMD,2026-02-04
-196,Reinsurance Group of America,Financials,Insurance,RGA,2026-02-04
-208,Fiserv,Financials,Financial Services,FI,2026-02-04
-215,Parker-Hannifin,Industrials,Machinery,PH,2026-02-04
-222,Aflac,Financials,Insurance,AFL,2026-02-04
-226,International Paper,Materials,Containers & Packaging,IP,2026-02-04
-232,ManpowerGroup,Industrials,Professional Services,MAN,2026-02-04
-239,Aramark,Industrials,Commercial Services & Supplies,ARMK,2026-02-04
-242,Asbury Automotive Group,Consumer Discretionary,Specialty Retail,ABG,2026-02-04
-245,Jacobs Solutions,Industrials,Professional Services,J,2026-02-04
-248,Boston Scientific,Health Care,Health Care Equipment & Supplies,BSX,2026-02-04
-259,AECOM,Industrials,Construction & Engineering,ACM,2026-02-04
-263,Principal Financial Group,Financials,Insurance,PFG,2026-02-04
-279,Estée Lauder,Consumer Staples,Personal Care Products,EL,2026-02-04
-281,Kenvue,Consumer Staples,Personal Care Products,KVUE,2026-02-04
-315,DXC Technology,Information Technology,IT Services,DXC,2026-02-04
-325,Lumen Technologies,Communication Services,Diversified Telecommunication Services,LUMN,2026-02-04
-330,Unum Group,Financials,Insurance,UNM,2026-02-04
-339,DuPont,Materials,Chemicals,DD,2026-02-04
-344,Berry Global Group,Materials,Containers & Packaging,BERY,2026-02-04
-356,Assurant,Financials,Insurance,AIZ,2026-02-04
-359,Crown Holdings,Materials,Containers & Packaging,CCK,2026-02-04
-372,Chipotle Mexican Grill,Consumer Discretionary,"Hotels, Restaurants & Leisure",CMG,2026-02-04
-373,Yum China Holdings,Consumer Discretionary,"Hotels, Restaurants & Leisure",YUMC,2026-02-04
-387,Owens Corning,Industrials,Building Products,OC,2026-02-04
-405,VF,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",VFC,2026-02-04
-444,Graphic Packaging Holding,Materials,Containers & Packaging,GPK,2026-02-04
-451,WEC Energy Group,Utilities,Multi-Utilities,WEC,2026-02-04
-452,Xylem,Industrials,Machinery,XYL,2026-02-04
-461,Rockwell Automation,Industrials,Electrical Equipment,ROK,2026-02-04
-467,Taylor Morrison Home,Consumer Discretionary,Household Durables,TMHC,2026-02-04
-469,Voya Financial,Financials,Insurance,VOYA,2026-02-04
-475,TransDigm Group,Industrials,Aerospace & Defense,TDG,2026-02-04
-483,Zimmer Biomet Holdings,Health Care,Health Care Equipment & Supplies,ZBH,2026-02-04
-490,Electronic Arts,Communication Services,Entertainment,EA,2026-02-04
-498,Howmet Aerospace,Industrials,Aerospace & Defense,HWM,2026-02-04
-498,Ingredion,Consumer Staples,Food Products,INGR,2026-02-04
-29,Marathon Petroleum,Energy,"Oil, Gas & Consumable Fuels",MPC,2026-02-03
-45,PepsiCo,Consumer Staples,Beverages,PEP,2026-02-03
-50,Archer Daniels Midland,Consumer Staples,Food Products,ADM,2026-02-03
-65,Merck (U.S.),Health Care,Pharmaceuticals,MRK,2026-02-03
-67,Pfizer,Health Care,Pharmaceuticals,PFE,2026-02-03
-78,Enterprise Products Partners,Energy,"Oil, Gas & Consumable Fuels",EPD,2026-02-03
-46,Walt Disney,Communication Services,Entertainment,DIS,2026-02-02
-85,Tyson Foods,Consumer Staples,Food Products,TSN,2026-02-02
-398,Booz Allen Hamilton Holding,Industrials,Professional Services,BAH,2026-01-31
-453,Franklin Resources,Financials,Capital Markets,BEN,2026-01-31
-8,Exxon Mobil,Energy,"Oil, Gas & Consumable Fuels",XOM,2026-01-30
-16,Chevron,Energy,"Oil, Gas & Consumable Fuels",CVX,2026-01-30
-30,Verizon Communications,Communication Services,Diversified Telecommunication Services,VZ,2026-01-30
-58,American Express,Financials,Consumer Finance,AXP,2026-01-30
-79,Charter Communications,Communication Services,Media,CHTR,2026-01-30
-152,Mastercard,Financials,Financial Services,MA,2026-01-30
-156,Southwest Airlines,Industrials,Passenger Airlines,LUV,2026-01-30
-162,Hartford Insurance Group,Financials,Insurance,HIG,2026-01-30
-175,"Marsh McLennan Agency, Midwest Region",Financials,Insurance,MMC,2026-01-30
-209,Altria Group,Consumer Staples,Tobacco,MO,2026-01-30
-321,Blackstone,Financials,Capital Markets,BX,2026-01-30
-367,Arthur J. Gallagher,Financials,Insurance,AJG,2026-01-30
-407,Autoliv,Consumer Discretionary,Automobile Components,ALV,2026-01-30
-431,Eastman Chemical,Materials,Chemicals,EMN,2026-01-30
-456,Dover,Industrials,Machinery,DOV,2026-01-30
-4,Apple,Information Technology,"Technology Hardware, Storage & Peripherals",AAPL,2026-01-29
-34,Valero Energy,Energy,"Oil, Gas & Consumable Fuels",VLO,2026-01-29
-35,Comcast,Communication Services,Media,CMCSA,2026-01-29
-59,Lockheed Martin,Industrials,Aerospace & Defense,LMT,2026-01-29
-64,Caterpillar,Industrials,Machinery,CAT,2026-01-29
-103,Dow,Materials,Chemicals,DOW,2026-01-29
-104,Thermo Fisher Scientific,Health Care,Life Sciences Tools & Services,TMO,2026-01-29
-106,World Kinect,Energy,"Oil, Gas & Consumable Fuels",WKC,2026-01-29
-110,Northrop Grumman,Industrials,Aerospace & Defense,NOC,2026-01-29
-127,Visa,Financials,Financial Services,V,2026-01-29
-155,Baker Hughes,Energy,Energy Equipment & Services,BKR,2026-01-29
-172,Carrier Global,Industrials,Building Products,CARR,2026-01-29
-181,Avnet,Information Technology,"Electronic Equipment, Instruments & Components",AVT,2026-01-29
-220,Automatic Data Processing,Industrials,Professional Services,ADP,2026-01-29
-233,C.H. Robinson Worldwide,Industrials,Air Freight & Logistics,CHRW,2026-01-29
-243,W.W. Grainger,Industrials,Trading Companies & Distributors,GWW,2026-01-29
-278,United States Steel,Materials,Metals & Mining,X,2026-01-29
-283,Stanley Black & Decker,Industrials,Machinery,SWK,2026-01-29
-285,United Rentals,Industrials,Trading Companies & Distributors,URI,2026-01-29
-293,First Citizens BancShares,Financials,Banks,FCNCA,2026-01-29
-296,Tractor Supply,Consumer Discretionary,Specialty Retail,TSCO,2026-01-29
-303,Otis Worldwide,Industrials,Machinery,OTIS,2026-01-29
-319,Xcel Energy,Utilities,Electric Utilities,XEL,2026-01-29
-327,Hess,Energy,"Oil, Gas & Consumable Fuels",HES,2026-01-29
-340,LPL Financial Holdings,Financials,Capital Markets,LPLA,2026-01-29
-386,ServiceNow,Information Technology,Software,NOW,2026-01-29
-393,Oshkosh,Industrials,Machinery,OSK,2026-01-29
-445,Avery Dennison,Materials,Containers & Packaging,AVY,2026-01-29
-463,Old Republic International,Financials,Insurance,ORI,2026-01-29
-14,Microsoft,Information Technology,Software,MSFT,2026-01-28
-20,Elevance Health,Health Care,Health Care Providers & Services,ELV,2026-01-28
-22,Meta Platforms,Communication Services,Interactive Media & Services,META,2026-01-28
-37,AT&T,Communication Services,Diversified Telecommunication Services,T,2026-01-28
-43,Tesla,Consumer Discretionary,Automobiles,TSLA,2026-01-28
-68,IBM,Information Technology,IT Services,IBM,2026-01-28
-96,General Dynamics,Industrials,Aerospace & Defense,GD,2026-01-28
-125,Mondelēz International,Consumer Staples,Food Products,MDLZ,2026-01-28
-126,Starbucks,Consumer Discretionary,"Hotels, Restaurants & Leisure",SBUX,2026-01-28
-133,Paccar,Industrials,Machinery,PCAR,2026-01-28
-140,Nucor,Materials,Metals & Mining,NUE,2026-01-28
-174,3M,Industrials,Industrial Conglomerates,MMM,2026-01-28
-180,Danaher,Health Care,Life Sciences Tools & Services,DHR,2026-01-28
-191,Sherwin-Williams,Materials,Chemicals,SHW,2026-01-28
-195,Stryker,Health Care,Health Care Equipment & Supplies,SYK,2026-01-28
-203,L3Harris Technologies,Industrials,Aerospace & Defense,LHX,2026-01-28
-212,Colgate-Palmolive,Consumer Staples,Household Products,CL,2026-01-28
-229,PulteGroup,Consumer Discretionary,Household Durables,PHM,2026-01-28
-230,Ameriprise Financial,Financials,Capital Markets,AMP,2026-01-28
-324,Corning,Information Technology,"Electronic Equipment, Instruments & Components",GLW,2026-01-28
-362,Alaska Air Group,Industrials,Passenger Airlines,ALK,2026-01-28
-374,Las Vegas Sands,Consumer Discretionary,"Hotels, Restaurants & Leisure",LVS,2026-01-28
-420,KLA,Information Technology,Semiconductors & Semiconductor Equipment,KLAC,2026-01-28
-448,Sirius XM Holdings,Communication Services,Media,SIRI,2026-01-28
-457,Packaging Corp. of America,Materials,Containers & Packaging,PKG,2026-01-28
-3,UnitedHealth Group,Health Care,Health Care Providers & Services,UNH,2026-01-27
-18,General Motors,Consumer Discretionary,Automobiles,GM,2026-01-27
-47,UPS,Industrials,Air Freight & Logistics,UPS,2026-01-27
-54,RTX,Industrials,Aerospace & Defense,RTX,2026-01-27
-56,Sysco,Consumer Staples,Consumer Staples Distribution & Retail,SYY,2026-01-27
-61,HCA Healthcare,Health Care,Health Care Providers & Services,HCA,2026-01-27
-63,Boeing,Industrials,Aerospace & Defense,BA,2026-01-27
-81,American Airlines Group,Industrials,Passenger Airlines,AAL,2026-01-27
-252,Whirlpool,Consumer Discretionary,Household Durables,WHR,2026-01-27
-316,W.R. Berkley,Financials,Insurance,WRB,2026-01-27
-329,Western Digital,Information Technology,"Technology Hardware, Storage & Peripherals",WDC,2026-01-27
-434,JetBlue Airways,Industrials,Passenger Airlines,JBLU,2026-01-27
-489,Sanmina,Information Technology,"Electronic Equipment, Instruments & Components",SANM,2026-01-27
-173,NextEra Energy,Utilities,Electric Utilities,NEE,2026-01-24
-169,Freeport-McMoRan,Materials,Metals & Mining,FCX,2026-01-23
-177,Union Pacific,Industrials,Ground Transportation,UNP,2026-01-23
-51,Procter & Gamble,Consumer Staples,Household Products,PG,2026-01-22
-82,Capital One Financial,Financials,Consumer Finance,COF,2026-01-22
-107,Abbott Laboratories,Health Care,Health Care Equipment & Supplies,ABT,2026-01-22
-118,GE Aerospace,Industrials,Aerospace & Defense,GE,2026-01-22
-130,GE Vernova,Industrials,Electrical Equipment,GEV,2026-01-22
-178,Synchrony Financial,Financials,Consumer Finance,SYF,2026-01-22
-185,Discover,Financials,Consumer Finance,DFS,2026-01-22
-213,Kimberly-Clark,Consumer Staples,Household Products,KMB,2026-01-22
-255,Ally Financial,Financials,Consumer Finance,ALLY,2026-01-22
-269,Northern Trust,Financials,Capital Markets,NTRS,2026-01-22
-277,Texas Instruments,Information Technology,Semiconductors & Semiconductor Equipment,TXN,2026-01-22
-287,Amphenol,Information Technology,"Electronic Equipment, Instruments & Components",APH,2026-01-22
-289,Kinder Morgan,Energy,"Oil, Gas & Consumable Fuels",KMI,2026-01-22
-294,Raymond James Financial,Financials,Capital Markets,RJF,2026-01-22
-295,Lam Research,Information Technology,Semiconductors & Semiconductor Equipment,LRCX,2026-01-22
-301,CSX,Industrials,Ground Transportation,CSX,2026-01-22
-311,Textron,Industrials,Aerospace & Defense,TXT,2026-01-22
-346,Norfolk Southern,Industrials,Ground Transportation,NSC,2026-01-22
-436,KeyCorp,Financials,Banks,KEY,2026-01-22
-459,Intuitive Surgical,Health Care,Health Care Equipment & Supplies,ISRG,2026-01-22
-465,Prologis,Real Estate,Industrial REITs,PLD,2026-01-22
-484,CACI International,Industrials,Professional Services,CACI,2026-01-22
-48,Johnson & Johnson,Health Care,Pharmaceuticals,JNJ,2026-01-21
-74,United Airlines Holdings,Industrials,Passenger Airlines,UAL,2026-01-21
-99,Travelers,Financials,Insurance,TRV,2026-01-21
-116,Netflix,Communication Services,Entertainment,NFLX,2026-01-21
-123,D.R. Horton,Consumer Discretionary,Household Durables,DHI,2026-01-21
-164,Charles Schwab,Financials,Capital Markets,SCHW,2026-01-21
-194,Halliburton,Energy,Energy Equipment & Services,HAL,2026-01-21
-236,Steel Dynamics,Materials,Metals & Mining,STLD,2026-01-21
-432,Interactive Brokers Group,Financials,Capital Markets,IBKR,2026-01-21
-198,State Street,Financials,Capital Markets,STT,2026-01-17
-320,Fifth Third Bancorp,Financials,Banks,FITB,2026-01-17
-341,Citizens Financial Group,Financials,Banks,CFG,2026-01-17
-348,J.B. Hunt Transport Services,Industrials,Ground Transportation,JBHT,2026-01-17
-351,Huntington Bancshares,Financials,Banks,HBAN,2026-01-17
-433,Regions Financial,Financials,Banks,RF,2026-01-17
-168,Truist Financial,Financials,Banks,TFC,2026-01-16
-234,PPG,Materials,Chemicals,PPG,2026-01-16
-317,M&T Bank,Financials,Banks,MTB,2026-01-16
-492,Fastenal,Industrials,Trading Companies & Distributors,FAST,2026-01-16
-32,Goldman Sachs Group,Financials,Capital Markets,GS,2026-01-15
-40,Morgan Stanley,Financials,Capital Markets,MS,2026-01-15
-105,U.S. Bancorp,Financials,Banks,USB,2026-01-15
-113,Bank of New York (BNY),Financials,Capital Markets,BK,2026-01-15
-131,PNC Financial Services Group,Financials,Banks,PNC,2026-01-15
-210,BlackRock,Financials,Capital Markets,BLK,2026-01-15
-354,Alcoa,Materials,Metals & Mining,AA,2026-01-15
-17,Bank of America,Financials,Banks,BAC,2026-01-14
-21,Citigroup,Financials,Banks,C,2026-01-14
-33,Wells Fargo,Financials,Banks,WFC,2026-01-14
-11,JPMorgan Chase,Financials,Banks,JPM,2026-01-13
-70,Delta Air Lines,Industrials,Passenger Airlines,DAL,2026-01-13
-129,Lennar,Consumer Discretionary,Household Durables,LEN,2026-01-13
-151,CarMax,Consumer Discretionary,Specialty Retail,KMX,2026-01-09
-418,Constellation Brands,Consumer Staples,Beverages,STZ,2026-01-09
-73,TD Synnex,Information Technology,"Electronic Equipment, Instruments & Components",SNX,2026-01-08
-350,Conagra Brands,Consumer Staples,Food Products,CAG,2026-01-08
-403,Jefferies Financial Group,Financials,Capital Markets,JEF,2026-01-08
-426,Concentrix,Information Technology,IT Services,CNXC,2026-01-08
-55,Albertsons,Consumer Staples,Consumer Staples Distribution & Retail,ACI,2026-01-07
-476,Commercial Metals,Materials,Metals & Mining,CMC,2026-01-06
-6,Berkshire Hathaway,Financials,Financial Services,BRK.B,
-26,Walgreens Boots Alliance,Consumer Staples,Consumer Staples Distribution & Retail,WBA,
-36,State Farm Insurance,Financials,Insurance,STF,
-69,New York Life Insurance,Financials,Insurance,NYL,
-71,Publix Super Markets,Consumer Staples,Consumer Staples Distribution & Retail,PUSH,
-72,Nationwide,Financials,Insurance,NFS,
-91,Liberty Mutual Insurance Group,Financials,Insurance,LMAC,
-93,USAA,Financials,Insurance,USAA,
-98,TIAA,Financials,Financial Services,TIAA,
-102,Massachusetts Mutual Life,Financials,Insurance,MassMutual,
-109,Northwestern Mutual,Financials,Insurance,NM,
-136,GuideWell Mutual Holding,Health Care,Health Care Providers & Services,GuideWell,
-202,American Family Insurance Group,Financials,Insurance,AmFam,
-247,Peter Kiewit Sons',Industrials,Construction & Engineering,Kiewit,
-253,Guardian Life Ins. Co. of America,Financials,Insurance,Guardian,
-260,Jones Financial (Edward Jones),Financials,Capital Markets,Edward Jones,
-262,Land O'Lakes,Consumer Staples,Food Products,Land O'Lakes,
-270,Auto-Owners Insurance,Financials,Insurance,Auto-Owners,
-272,Pacific Life,Financials,Insurance,Pacific Life,
-280,Farmers Insurance Exchange,Financials,Insurance,Farmers,
-299,Mutual of Omaha,Financials,Insurance,Mutual of Omaha,
-310,Western & Southern Financial Group,Financials,Insurance,W&S,
-323,Erie Insurance Group,Financials,Insurance,Erie,
-365,Graybar Electric,Industrials,Trading Companies & Distributors,Graybar,
-388,Thrivent Financial,Financials,Insurance,Thrivent,
-406,FM,Financials,Insurance,FM,
-429,Ace Hardware,Consumer Discretionary,Specialty Retail,Ace,
-439,Seaboard,Consumer Staples,Food Products,SEB,
-442,Optimum Communications,Communication Services,Media,Optimum,
-464,Securian Financial Group,Financials,Insurance,Securian,
+﻿Fortune 500 rank,Company,Sector,Industry,Ticker,Earnings call date,
+1,Walmart,Consumer Staples,Consumer Staples Distribution & Retail,WMT,2026-02-19,
+2,Amazon,Consumer Discretionary,Broadline Retail,AMZN,2026-02-05,
+3,UnitedHealth Group,Health Care,Health Care Providers & Services,UNH,2026-01-27,
+4,Apple,Information Technology,"Technology Hardware, Storage & Peripherals",AAPL,2026-01-29,
+5,CVS Health,Health Care,Health Care Providers & Services,CVS,2026-02-10,
+6,Berkshire Hathaway,Financials,Financial Services,BRK.B,,No earnings call
+7,Alphabet,Communication Services,Interactive Media & Services,GOOGL,2026-02-04,
+8,Exxon Mobil,Energy,"Oil, Gas & Consumable Fuels",XOM,2026-01-30,
+9,McKesson,Health Care,Health Care Providers & Services,MCK,2026-02-04,
+10,Cencora,Health Care,Health Care Providers & Services,COR,2026-02-04,
+11,JPMorgan Chase,Financials,Banks,JPM,2026-01-13,
+12,Costco Wholesale,Consumer Staples,Consumer Staples Distribution & Retail,COST,2026-03-05,
+13,Cigna,Health Care,Health Care Providers & Services,CI,2026-02-05,
+14,Microsoft,Information Technology,Software,MSFT,2026-01-28,
+15,Cardinal Health,Health Care,Health Care Providers & Services,CAH,2026-02-05,
+16,Chevron,Energy,"Oil, Gas & Consumable Fuels",CVX,2026-01-30,
+17,Bank of America,Financials,Banks,BAC,2026-01-14,
+18,General Motors,Consumer Discretionary,Automobiles,GM,2026-01-27,
+19,Ford Motor,Consumer Discretionary,Automobiles,F,2026-02-10,
+20,Elevance Health,Health Care,Health Care Providers & Services,ELV,2026-01-28,
+21,Citigroup,Financials,Banks,C,2026-01-14,
+22,Meta Platforms,Communication Services,Interactive Media & Services,META,2026-01-28,
+23,Centene,Health Care,Health Care Providers & Services,CNC,2026-02-06,
+24,Home Depot,Consumer Discretionary,Specialty Retail,HD,2026-02-24,
+25,Fannie Mae,Financials,Financial Services,FNMA,2026-02-12,
+26,Walgreens Boots Alliance,Consumer Staples,Consumer Staples Distribution & Retail,WBA,,No earnings call
+27,Kroger,Consumer Staples,Consumer Staples Distribution & Retail,KR,2026-03-05,
+28,Phillips 66,Energy,"Oil, Gas & Consumable Fuels",PSX,2026-02-04,
+29,Marathon Petroleum,Energy,"Oil, Gas & Consumable Fuels",MPC,2026-02-03,
+30,Verizon Communications,Communication Services,Diversified Telecommunication Services,VZ,2026-01-30,
+31,Nvidia,Information Technology,Semiconductors & Semiconductor Equipment,NVDA,2026-02-25,
+32,Goldman Sachs Group,Financials,Capital Markets,GS,2026-01-15,
+33,Wells Fargo,Financials,Banks,WFC,2026-01-14,
+34,Valero Energy,Energy,"Oil, Gas & Consumable Fuels",VLO,2026-01-29,
+35,Comcast,Communication Services,Media,CMCSA,2026-01-29,
+36,State Farm Insurance,Financials,Insurance,,,No earnings call
+37,AT&T,Communication Services,Diversified Telecommunication Services,T,2026-01-28,
+38,Freddie Mac,Financials,Financial Services,FMCC,2026-02-12,
+39,Humana,Health Care,Health Care Providers & Services,HUM,2026-02-11,
+40,Morgan Stanley,Financials,Capital Markets,MS,2026-01-15,
+41,Target,Consumer Staples,Consumer Staples Distribution & Retail,TGT,2026-03-03,
+42,StoneX Group,Financials,Capital Markets,SNEX,2026-02-04,
+43,Tesla,Consumer Discretionary,Automobiles,TSLA,2026-01-28,
+44,Dell Technologies,Information Technology,"Technology Hardware, Storage & Peripherals",DELL,2026-02-26,
+45,PepsiCo,Consumer Staples,Beverages,PEP,2026-02-03,
+46,Walt Disney,Communication Services,Entertainment,DIS,2026-02-02,
+47,UPS,Industrials,Air Freight & Logistics,UPS,2026-01-27,
+48,Johnson & Johnson,Health Care,Pharmaceuticals,JNJ,2026-01-21,
+49,FedEx,Industrials,Air Freight & Logistics,FDX,2026-03-19,
+50,Archer Daniels Midland,Consumer Staples,Food Products,ADM,2026-02-03,
+51,Procter & Gamble,Consumer Staples,Household Products,PG,2026-01-22,
+52,Lowe's,Consumer Discretionary,Specialty Retail,LOW,2026-02-25,
+53,Energy Transfer,Energy,"Oil, Gas & Consumable Fuels",ET,2026-02-17,
+54,RTX,Industrials,Aerospace & Defense,RTX,2026-01-27,
+55,Albertsons,Consumer Staples,Consumer Staples Distribution & Retail,ACI,2026-01-07,
+56,Sysco,Consumer Staples,Consumer Staples Distribution & Retail,SYY,2026-01-27,
+57,Progressive,Financials,Insurance,PGR,2026-03-03,
+58,American Express,Financials,Consumer Finance,AXP,2026-01-30,
+59,Lockheed Martin,Industrials,Aerospace & Defense,LMT,2026-01-29,
+60,MetLife,Financials,Insurance,MET,2026-02-05,
+61,HCA Healthcare,Health Care,Health Care Providers & Services,HCA,2026-01-27,
+62,Prudential Financial (U.S.),Financials,Insurance,PRU,2026-02-04,
+63,Boeing,Industrials,Aerospace & Defense,BA,2026-01-27,
+64,Caterpillar,Industrials,Machinery,CAT,2026-01-29,
+65,Merck (U.S.),Health Care,Pharmaceuticals,MRK,2026-02-03,
+66,Allstate,Financials,Insurance,ALL,2026-02-05,
+67,Pfizer,Health Care,Pharmaceuticals,PFE,2026-02-03,
+68,IBM,Information Technology,IT Services,IBM,2026-01-28,
+69,New York Life Insurance,Financials,Insurance,,,No earnings call
+70,Delta Air Lines,Industrials,Passenger Airlines,DAL,2026-01-13,
+71,Publix Super Markets,Consumer Staples,Consumer Staples Distribution & Retail,PUSH,,No earnings call
+72,Nationwide,Financials,Insurance,NFS,,No earnings call
+73,TD Synnex,Information Technology,"Electronic Equipment, Instruments & Components",SNX,2026-01-08,
+74,United Airlines Holdings,Industrials,Passenger Airlines,UAL,2026-01-21,
+75,ConocoPhillips,Energy,"Oil, Gas & Consumable Fuels",COP,2026-02-05,
+76,TJX,Consumer Discretionary,Specialty Retail,TJX,2026-02-25,
+77,AbbVie,Health Care,Biotechnology,ABBV,2026-02-04,
+78,Enterprise Products Partners,Energy,"Oil, Gas & Consumable Fuels",EPD,2026-02-03,
+79,Charter Communications,Communication Services,Media,CHTR,2026-01-30,
+80,Performance Food Group,Consumer Staples,Consumer Staples Distribution & Retail,PFGC,2026-02-04,
+81,American Airlines Group,Industrials,Passenger Airlines,AAL,2026-01-27,
+82,Capital One Financial,Financials,Consumer Finance,COF,2026-01-22,
+83,Cisco Systems,Information Technology,Communications Equipment,CSCO,2026-02-11,
+84,HP,Information Technology,"Technology Hardware, Storage & Peripherals",HPQ,2026-02-26,
+85,Tyson Foods,Consumer Staples,Food Products,TSN,2026-02-02,
+86,Intel,Information Technology,Semiconductors & Semiconductor Equipment,INTC,2026-04-23,
+87,Oracle,Information Technology,Software,ORCL,2026-03-09,
+88,Broadcom,Information Technology,Semiconductors & Semiconductor Equipment,AVGO,2026-02-26,
+89,Deere,Industrials,Machinery,DE,2026-02-19,
+90,Nike,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",NKE,2026-03-19,
+91,Liberty Mutual Insurance Group,Financials,Insurance,,,No earnings call
+92,Plains GP Holdings,Energy,"Oil, Gas & Consumable Fuels",PAGP,2026-02-06,
+93,USAA,Financials,Insurance,,,No earnings call
+94,Bristol-Myers Squibb,Health Care,Pharmaceuticals,BMY,2026-02-05,
+95,Ingram Micro Holding,Information Technology,"Electronic Equipment, Instruments & Components",INGM,2026-03-03,
+96,General Dynamics,Industrials,Aerospace & Defense,GD,2026-01-28,
+97,Coca-Cola,Consumer Staples,Beverages,KO,2026-02-10,
+98,TIAA,Financials,Financial Services,,,No earnings call
+99,Travelers,Financials,Insurance,TRV,2026-01-21,
+100,Eli Lilly,Health Care,Pharmaceuticals,LLY,2026-02-04,
+101,Uber Technologies,Industrials,Ground Transportation,UBER,2026-02-04,
+102,Massachusetts Mutual Life,Financials,Insurance,,,No earnings call
+103,Dow,Materials,Chemicals,DOW,2026-01-29,
+104,Thermo Fisher Scientific,Health Care,Life Sciences Tools & Services,TMO,2026-01-29,
+105,U.S. Bancorp,Financials,Banks,USB,2026-01-15,
+106,World Kinect,Energy,"Oil, Gas & Consumable Fuels",WKC,2026-01-29,
+107,Abbott Laboratories,Health Care,Health Care Equipment & Supplies,ABT,2026-01-22,
+108,Best Buy,Consumer Discretionary,Specialty Retail,BBY,2026-03-04,
+109,Northwestern Mutual,Financials,Insurance,,,No earnings call
+110,Northrop Grumman,Industrials,Aerospace & Defense,NOC,2026-01-29,
+111,Molina Healthcare,Health Care,Health Care Providers & Services,MOH,2026-02-11,
+112,Dollar General,Consumer Discretionary,Broadline Retail,DG,2026-03-12,
+113,Bank of New York (BNY),Financials,Capital Markets,BK,2026-01-15,
+114,Warner Bros. Discovery,Communication Services,Entertainment,WBD,2026-02-26,
+115,CHS,Energy,"Oil, Gas & Consumable Fuels",CHSCP,2026-02-11,"This is a coop that has a couple different tickers (also CHSCO, CHSCN, CHSCM, CHSCL)"
+116,Netflix,Communication Services,Entertainment,NFLX,2026-01-21,
+117,Qualcomm,Information Technology,Semiconductors & Semiconductor Equipment,QCOM,2026-02-04,
+118,GE Aerospace,Industrials,Aerospace & Defense,GE,2026-01-22,
+119,Honeywell International,Industrials,Industrial Conglomerates,HON,2026-02-06,
+120,Salesforce,Information Technology,Software,CRM,2026-03-03,
+121,Philip Morris International,Consumer Staples,Tobacco,PM,2026-02-05,
+122,US Foods Holding,Consumer Staples,Consumer Staples Distribution & Retail,USFD,2026-02-12,
+123,D.R. Horton,Consumer Discretionary,Household Durables,DHI,2026-01-21,
+124,Lithia Motors,Consumer Discretionary,Specialty Retail,LAD,2026-02-12,
+125,Mondelēz International,Consumer Staples,Food Products,MDLZ,2026-01-28,
+126,Starbucks,Consumer Discretionary,"Hotels, Restaurants & Leisure",SBUX,2026-01-28,
+127,Visa,Financials,Financial Services,V,2026-01-29,
+128,CBRE Group,Real Estate,Real Estate Management & Development,CBRE,2026-02-20,
+129,Lennar,Consumer Discretionary,Household Durables,LEN,2026-01-13,
+130,GE Vernova,Industrials,Electrical Equipment,GEV,2026-01-22,
+131,PNC Financial Services Group,Financials,Banks,PNC,2026-01-15,
+132,Cummins,Industrials,Machinery,CMI,2026-02-04,
+133,Paccar,Industrials,Machinery,PCAR,2026-01-28,
+134,Amgen,Health Care,Biotechnology,AMGN,2026-02-04,
+135,PBF Energy,Energy,"Oil, Gas & Consumable Fuels",PBF,2026-02-05,
+136,GuideWell Mutual Holding,Health Care,Health Care Providers & Services,,,No earnings call
+137,PayPal Holdings,Financials,Financial Services,PYPL,2026-02-04,
+138,United Natural Foods,Consumer Staples,Consumer Staples Distribution & Retail,UNFI,2026-03-10,
+139,Dollar Tree,Consumer Discretionary,Broadline Retail,DLTR,2026-03-05,
+140,Nucor,Materials,Metals & Mining,NUE,2026-01-28,
+141,Penske Automotive Group,Consumer Discretionary,Specialty Retail,PAG,2026-02-05,
+142,Coupang,Consumer Discretionary,Broadline Retail,CPNG,2026-02-25,
+143,Hewlett Packard Enterprise,Information Technology,"Technology Hardware, Storage & Peripherals",HPE,2026-03-05,
+144,Duke Energy,Utilities,Electric Utilities,DUK,2026-02-12,
+145,KKR,Financials,Capital Markets,KKR,2026-02-04,
+146,Ferguson Enterprises,Industrials,Trading Companies & Distributors,FERG,2026-03-10,
+147,Paramount Global,Communication Services,Entertainment,PARA,2026-02-24,
+148,Jabil,Information Technology,"Electronic Equipment, Instruments & Components",JBL,2026-03-17,
+149,Gilead Sciences,Health Care,Biotechnology,GILD,2026-02-04,
+150,HF Sinclair,Energy,"Oil, Gas & Consumable Fuels",DINO,2026-02-20,
+151,CarMax,Consumer Discretionary,Specialty Retail,KMX,2026-01-09,
+152,Mastercard,Financials,Financial Services,MA,2026-01-30,
+153,NRG Energy,Utilities,Independent Power and Renewable Electricity Producers,NRG,2026-02-27,
+154,Arrow Electronics,Information Technology,"Electronic Equipment, Instruments & Components",ARW,2026-02-05,
+155,Baker Hughes,Energy,Energy Equipment & Services,BKR,2026-01-29,
+156,Southwest Airlines,Industrials,Passenger Airlines,LUV,2026-01-30,
+157,AIG,Financials,Insurance,AIG,2026-02-12,
+158,Applied Materials,Information Technology,Semiconductors & Semiconductor Equipment,AMAT,2026-02-19,
+159,Occidental Petroleum,Energy,"Oil, Gas & Consumable Fuels",OXY,2026-02-12,
+160,AutoNation,Consumer Discretionary,Specialty Retail,AN,2026-02-11,
+161,Southern Company,Utilities,Electric Utilities,SO,2026-02-19,
+162,Hartford Insurance Group,Financials,Insurance,HIG,2026-01-30,
+163,Apollo Global Management,Financials,Capital Markets,APO,2026-02-04,
+164,Charles Schwab,Financials,Capital Markets,SCHW,2026-01-21,
+165,McDonald's,Consumer Discretionary,"Hotels, Restaurants & Leisure",MCD,2026-02-10,
+166,Kraft Heinz,Consumer Staples,Food Products,KHC,2026-02-12,
+167,Advanced Micro Devices (AMD),Information Technology,Semiconductors & Semiconductor Equipment,AMD,2026-02-04,
+168,Truist Financial,Financials,Banks,TFC,2026-01-16,
+169,Freeport-McMoRan,Materials,Metals & Mining,FCX,2026-01-23,
+170,Micron Technology,Information Technology,Semiconductors & Semiconductor Equipment,MU,2026-03-19,
+171,Marriott International,Consumer Discretionary,"Hotels, Restaurants & Leisure",MAR,2026-02-11,
+172,Carrier Global,Industrials,Building Products,CARR,2026-01-29,
+173,NextEra Energy,Utilities,Electric Utilities,NEE,2026-01-24,
+174,3M,Industrials,Industrial Conglomerates,MMM,2026-01-28,
+175,"Marsh McLennan Agency, Midwest Region",Financials,Insurance,MMC,2026-01-30,
+176,PG&E,Utilities,Electric Utilities,PCG,2026-02-12,
+177,Union Pacific,Industrials,Ground Transportation,UNP,2026-01-23,
+178,Synchrony Financial,Financials,Consumer Finance,SYF,2026-01-22,
+179,Block,Financials,Financial Services,XYZ,2026-02-20,
+180,Danaher,Health Care,Life Sciences Tools & Services,DHR,2026-01-28,
+181,Avnet,Information Technology,"Electronic Equipment, Instruments & Components",AVT,2026-01-29,
+182,Booking Holdings,Consumer Discretionary,"Hotels, Restaurants & Leisure",BKNG,2026-02-19,
+183,EOG Resources,Energy,"Oil, Gas & Consumable Fuels",EOG,2026-02-26,
+184,Quanta Services,Industrials,Construction & Engineering,PWR,2026-02-20,
+185,Discover,Financials,Consumer Finance,DFS,2026-01-22,
+186,Constellation Energy,Utilities,Electric Utilities,CEG,2026-02-20,
+187,Genuine Parts,Consumer Discretionary,Distributors,GPC,2026-02-18,
+188,Jones Lang LaSalle (JLL),Real Estate,Real Estate Management & Development,JLL,2026-02-11,
+189,Lear,Consumer Discretionary,Automobile Components,LEA,2026-02-05,
+190,Live Nation Entertainment,Communication Services,Entertainment,LYV,2026-02-20,
+191,Sherwin-Williams,Materials,Chemicals,SHW,2026-01-28,
+192,Exelon,Utilities,Electric Utilities,EXC,2026-02-12,
+193,Macy's,Consumer Discretionary,Broadline Retail,M,2026-03-04,
+194,Halliburton,Energy,Energy Equipment & Services,HAL,2026-01-21,
+195,Stryker,Health Care,Health Care Equipment & Supplies,SYK,2026-01-28,
+196,Reinsurance Group of America,Financials,Insurance,RGA,2026-02-04,
+197,Waste Management (WM),Industrials,Commercial Services & Supplies,WM,2026-02-19,
+198,State Street,Financials,Capital Markets,STT,2026-01-17,
+199,WESCO International,Industrials,Trading Companies & Distributors,WCC,2026-02-19,
+200,Oneok,Energy,"Oil, Gas & Consumable Fuels",OKE,2026-02-24,
+201,Adobe,Information Technology,Software,ADBE,2026-03-12,
+202,American Family Insurance Group,Financials,Insurance,,,No earnings call
+203,L3Harris Technologies,Industrials,Aerospace & Defense,LHX,2026-01-28,
+204,Ross Stores,Consumer Discretionary,Specialty Retail,ROST,2026-03-04,
+205,CDW,Information Technology,"Electronic Equipment, Instruments & Components",CDW,2026-02-12,
+206,Tenet Healthcare,Health Care,Health Care Providers & Services,THC,2026-02-10,
+207,BJ's Wholesale Club,Consumer Staples,Consumer Staples Distribution & Retail,BJ,2026-03-05,
+208,Fiserv,Financials,Financial Services,FI,2026-02-04,
+209,Altria Group,Consumer Staples,Tobacco,MO,2026-01-30,
+210,BlackRock,Financials,Capital Markets,BLK,2026-01-15,
+211,Becton Dickinson,Health Care,Health Care Equipment & Supplies,BDX,2026-02-05,
+212,Colgate-Palmolive,Consumer Staples,Household Products,CL,2026-01-28,
+213,Kimberly-Clark,Consumer Staples,Household Products,KMB,2026-01-22,
+214,Group 1 Automotive,Consumer Discretionary,Specialty Retail,GPI,2026-02-12,
+215,Parker-Hannifin,Industrials,Machinery,PH,2026-02-04,
+216,General Mills,Consumer Staples,Food Products,GIS,2026-03-18,
+217,Cognizant Technology Solutions,Information Technology,IT Services,CTSH,2026-02-05,
+218,American Electric Power,Utilities,Electric Utilities,AEP,2026-02-20,
+219,GE HealthCare Technologies,Health Care,Health Care Equipment & Supplies,GEHC,2026-02-12,
+220,Automatic Data Processing,Industrials,Professional Services,ADP,2026-01-29,
+221,Cleveland-Cliffs,Materials,Metals & Mining,CLF,2026-02-13,
+222,Aflac,Financials,Insurance,AFL,2026-02-04,
+223,Goodyear Tire & Rubber,Consumer Discretionary,Automobile Components,GT,2026-02-14,
+224,Corebridge Financial,Financials,Insurance,CRBG,2026-02-12,
+225,Newmont,Materials,Metals & Mining,NEM,2026-02-19,
+226,International Paper,Materials,Containers & Packaging,IP,2026-02-04,
+227,AutoZone,Consumer Discretionary,Specialty Retail,AZO,2026-03-04,
+228,Lincoln National,Financials,Insurance,LNC,2026-02-05,
+229,PulteGroup,Consumer Discretionary,Household Durables,PHM,2026-01-28,
+230,Ameriprise Financial,Financials,Capital Markets,AMP,2026-01-28,
+231,Murphy USA,Consumer Discretionary,Specialty Retail,MUSA,2026-02-05,
+232,ManpowerGroup,Industrials,Professional Services,MAN,2026-02-04,
+233,C.H. Robinson Worldwide,Industrials,Air Freight & Logistics,CHRW,2026-01-29,
+234,PPG,Materials,Chemicals,PPG,2026-01-16,
+235,Edison International,Utilities,Electric Utilities,EIX,2026-02-25,
+236,Steel Dynamics,Materials,Metals & Mining,STLD,2026-01-21,
+237,Loews,Financials,Insurance,L,2026-02-09,
+238,Emerson Electric,Industrials,Electrical Equipment,EMR,2026-02-05,
+239,Aramark,Industrials,Commercial Services & Supplies,ARMK,2026-02-04,
+240,MGM Resorts International,Consumer Discretionary,"Hotels, Restaurants & Leisure",MGM,2026-02-11,
+241,Vistra,Utilities,Independent Power and Renewable Electricity Producers,VST,2026-02-27,
+242,Asbury Automotive Group,Consumer Discretionary,Specialty Retail,ABG,2026-02-04,
+243,W.W. Grainger,Industrials,Trading Companies & Distributors,GWW,2026-01-29,
+244,Global Partners,Energy,"Oil, Gas & Consumable Fuels",GLP,2026-02-27,
+245,Jacobs Solutions,Industrials,Professional Services,J,2026-02-04,
+246,Corteva,Materials,Chemicals,CTVA,2026-02-05,
+247,Peter Kiewit Sons',Industrials,Construction & Engineering,,,No earnings call
+248,Boston Scientific,Health Care,Health Care Equipment & Supplies,BSX,2026-02-04,
+249,O'Reilly Automotive,Consumer Discretionary,Specialty Retail,ORLY,2026-02-05,
+250,Leidos Holdings,Industrials,Professional Services,LDOS,2026-02-11,
+251,Markel Group,Financials,Insurance,MKL,2026-02-05,
+252,Whirlpool,Consumer Discretionary,Household Durables,WHR,2026-01-27,
+253,Guardian Life Ins. Co. of America,Financials,Insurance,,,No earnings call
+254,Builders FirstSource,Industrials,Building Products,BLDR,2026-02-17,
+255,Ally Financial,Financials,Consumer Finance,ALLY,2026-01-22,
+256,Targa Resources,Energy,"Oil, Gas & Consumable Fuels",TRGP,2026-02-19,
+257,Fluor,Industrials,Construction & Engineering,FLR,2026-02-18,
+258,Intuit,Information Technology,Software,INTU,2026-02-20,
+259,AECOM,Industrials,Construction & Engineering,ACM,2026-02-04,
+260,Jones Financial (Edward Jones),Financials,Capital Markets,,,No earnings call
+261,Kohl's,Consumer Discretionary,Broadline Retail,KSS,2026-03-11,
+262,Land O'Lakes,Consumer Staples,Food Products,,,No earnings call
+263,Principal Financial Group,Financials,Insurance,PFG,2026-02-04,
+264,Dominion Energy,Utilities,Electric Utilities,D,2026-02-11,
+265,Kyndryl Holdings,Information Technology,IT Services,KD,2026-02-05,
+266,Republic Services,Industrials,Commercial Services & Supplies,RSG,2026-02-13,
+267,Devon Energy,Energy,"Oil, Gas & Consumable Fuels",DVN,2026-02-18,
+268,Illinois Tool Works,Industrials,Machinery,ITW,2026-02-05,
+269,Northern Trust,Financials,Capital Markets,NTRS,2026-01-22,
+270,Auto-Owners Insurance,Financials,Insurance,,,No earnings call
+271,Universal Health Services,Health Care,Health Care Providers & Services,UHS,2026-02-26,
+272,Pacific Life,Financials,Insurance,,,No earnings call
+273,EchoStar,Communication Services,Diversified Telecommunication Services,SATS,2026-02-20,
+274,Ecolab,Materials,Chemicals,ECL,2026-02-18,
+275,Cheniere Energy,Energy,"Oil, Gas & Consumable Fuels",LNG,2026-02-20,
+276,Omnicom Group,Communication Services,Media,OMC,2026-02-11,
+277,Texas Instruments,Information Technology,Semiconductors & Semiconductor Equipment,TXN,2026-01-22,
+278,United States Steel,Materials,Metals & Mining,X,2026-01-29,
+279,Estée Lauder,Consumer Staples,Personal Care Products,EL,2026-02-04,
+280,Farmers Insurance Exchange,Financials,Insurance,,,No earnings call
+281,Kenvue,Consumer Staples,Personal Care Products,KVUE,2026-02-04,
+282,IQVIA Holdings,Health Care,Life Sciences Tools & Services,IQV,2026-02-12,
+283,Stanley Black & Decker,Industrials,Machinery,SWK,2026-01-29,
+284,Keurig Dr Pepper,Consumer Staples,Beverages,KDP,2026-02-12,
+285,United Rentals,Industrials,Trading Companies & Distributors,URI,2026-01-29,
+286,Consolidated Edison,Utilities,Multi-Utilities,ED,2026-02-19,
+287,Amphenol,Information Technology,"Electronic Equipment, Instruments & Components",APH,2026-01-22,
+288,Baxter International,Health Care,Health Care Equipment & Supplies,BAX,2026-02-05,
+289,Kinder Morgan,Energy,"Oil, Gas & Consumable Fuels",KMI,2026-01-22,
+290,Gap,Consumer Discretionary,Specialty Retail,GAP,2026-03-05,
+291,Nordstrom,Consumer Discretionary,Broadline Retail,JWN,2026-03-04,
+292,Super Micro Computer,Information Technology,"Technology Hardware, Storage & Peripherals",SMCI,2026-02-25,
+293,First Citizens BancShares,Financials,Banks,FCNCA,2026-01-29,
+294,Raymond James Financial,Financials,Capital Markets,RJF,2026-01-22,
+295,Lam Research,Information Technology,Semiconductors & Semiconductor Equipment,LRCX,2026-01-22,
+296,Tractor Supply,Consumer Discretionary,Specialty Retail,TSCO,2026-01-29,
+297,Casey's General Stores,Consumer Staples,Consumer Staples Distribution & Retail,CASY,2026-03-09,
+298,Viatris,Health Care,Pharmaceuticals,VTRS,2026-02-26,
+299,Mutual of Omaha,Financials,Insurance,,,No earnings call
+300,EMCOR Group,Industrials,Construction & Engineering,EME,2026-02-13,
+301,CSX,Industrials,Ground Transportation,CSX,2026-01-22,
+302,LKQ,Consumer Discretionary,Distributors,LKQ,2026-02-19,
+303,Otis Worldwide,Industrials,Machinery,OTIS,2026-01-29,
+304,Sonic Automotive,Consumer Discretionary,Specialty Retail,SAH,2026-02-19,
+305,S&P Global,Financials,Capital Markets,SPGI,2026-02-06,
+306,Regeneron Pharmaceuticals,Health Care,Biotechnology,REGN,2026-02-06,
+307,BorgWarner,Consumer Discretionary,Automobile Components,BWA,2026-02-12,
+308,Fox,Communication Services,Media,FOXA,2026-02-05,
+309,Reliance,Materials,Metals & Mining,RS,2026-02-19,
+310,Western & Southern Financial Group,Financials,Insurance,,,No earnings call
+311,Textron,Industrials,Aerospace & Defense,TXT,2026-01-22,
+312,Expedia Group,Consumer Discretionary,"Hotels, Restaurants & Leisure",EXPE,2026-02-05,
+313,Fidelity National Financial,Financials,Insurance,FNF,2026-02-19,
+314,Carvana,Consumer Discretionary,Specialty Retail,CVNA,2026-02-19,
+315,DXC Technology,Information Technology,IT Services,DXC,2026-02-04,
+316,W.R. Berkley,Financials,Insurance,WRB,2026-01-27,
+317,M&T Bank,Financials,Banks,MTB,2026-01-16,
+318,DICK'S Sporting Goods,Consumer Discretionary,Specialty Retail,DKS,2026-03-11,
+319,Xcel Energy,Utilities,Electric Utilities,XEL,2026-01-29,
+320,Fifth Third Bancorp,Financials,Banks,FITB,2026-01-17,
+321,Blackstone,Financials,Capital Markets,BX,2026-01-30,
+322,Sempra,Utilities,Multi-Utilities,SRE,2026-02-25,
+323,Erie Insurance Group,Financials,Insurance,,,No earnings call
+324,Corning,Information Technology,"Electronic Equipment, Instruments & Components",GLW,2026-01-28,
+325,Lumen Technologies,Communication Services,Diversified Telecommunication Services,LUMN,2026-02-04,
+326,FirstEnergy,Utilities,Electric Utilities,FE,2026-02-19,
+327,Hess,Energy,"Oil, Gas & Consumable Fuels",HES,2026-01-29,
+328,Labcorp Holdings,Health Care,Health Care Providers & Services,LH,2026-02-12,
+329,Western Digital,Information Technology,"Technology Hardware, Storage & Peripherals",WDC,2026-01-27,
+330,Unum Group,Financials,Insurance,UNM,2026-02-04,
+331,DaVita,Health Care,Health Care Providers & Services,DVA,2026-02-12,
+332,Kellanova,Consumer Staples,Food Products,K,2026-02-05,May not be listed given merger
+333,Henry Schein,Health Care,Health Care Providers & Services,HSIC,2026-02-19,
+334,Ryder System,Industrials,Ground Transportation,R,2026-02-05,
+335,Community Health Systems,Health Care,Health Care Providers & Services,CYH,2026-02-18,
+336,Delek US Holdings,Energy,"Oil, Gas & Consumable Fuels",DK,2026-02-25,
+337,DTE Energy,Utilities,Multi-Utilities,DTE,2026-02-12,
+338,Equitable Holdings,Financials,Insurance,EQH,2026-02-12,
+339,DuPont,Materials,Chemicals,DD,2026-02-04,
+340,LPL Financial Holdings,Financials,Capital Markets,LPLA,2026-01-29,
+341,Citizens Financial Group,Financials,Banks,CFG,2026-01-17,
+342,MasTec,Industrials,Construction & Engineering,MTZ,2026-02-27,
+343,AES,Utilities,Independent Power and Renewable Electricity Producers,AES,2026-02-27,
+344,Berry Global Group,Materials,Containers & Packaging,BERY,2026-02-04,
+345,Westlake,Materials,Chemicals,WLK,2026-02-18,
+346,Norfolk Southern,Industrials,Ground Transportation,NSC,2026-01-22,
+347,Air Products & Chemicals,Materials,Chemicals,APD,2026-02-06,
+348,J.B. Hunt Transport Services,Industrials,Ground Transportation,JBHT,2026-01-17,
+349,Ball,Materials,Containers & Packaging,BALL,2026-02-06,
+350,Conagra Brands,Consumer Staples,Food Products,CAG,2026-01-08,
+351,Huntington Bancshares,Financials,Banks,HBAN,2026-01-17,
+352,Hormel Foods,Consumer Staples,Food Products,HRL,2026-03-04,
+353,Eversource Energy,Utilities,Electric Utilities,ES,2026-02-11,
+354,Alcoa,Materials,Metals & Mining,AA,2026-01-15,
+355,Entergy,Utilities,Electric Utilities,ETR,2026-02-05,
+356,Assurant,Financials,Insurance,AIZ,2026-02-04,
+357,Chewy,Consumer Discretionary,Specialty Retail,CHWY,2026-03-26,
+358,Wayfair,Consumer Discretionary,Specialty Retail,W,2026-02-20,
+359,Crown Holdings,Materials,Containers & Packaging,CCK,2026-02-04,
+360,Avis Budget Group,Industrials,Ground Transportation,CAR,2026-02-12,
+361,Intercontinental Exchange,Financials,Capital Markets,ICE,2026-02-06,
+362,Alaska Air Group,Industrials,Passenger Airlines,ALK,2026-01-28,
+363,GXO Logistics,Industrials,Air Freight & Logistics,GXO,2026-02-11,
+364,AGCO,Industrials,Machinery,AGCO,2026-02-11,
+365,Graybar Electric,Industrials,Trading Companies & Distributors,,,No earnings call
+366,Molson Coors Beverage,Consumer Staples,Beverages,TAP,2026-02-12,
+367,Arthur J. Gallagher,Financials,Insurance,AJG,2026-01-30,
+368,Huntington Ingalls Industries,Industrials,Aerospace & Defense,HII,2026-02-12,
+369,International Flavors & Fragrances,Materials,Chemicals,IFF,2026-02-10,
+370,Darden Restaurants,Consumer Discretionary,"Hotels, Restaurants & Leisure",DRI,2026-03-19,
+371,Cincinnati Financial,Financials,Insurance,CINF,2026-02-05,
+372,Chipotle Mexican Grill,Consumer Discretionary,"Hotels, Restaurants & Leisure",CMG,2026-02-04,
+373,Yum China Holdings,Consumer Discretionary,"Hotels, Restaurants & Leisure",YUMC,2026-02-04,
+374,Las Vegas Sands,Consumer Discretionary,"Hotels, Restaurants & Leisure",LVS,2026-01-28,
+375,Ulta Beauty,Consumer Discretionary,Specialty Retail,ULTA,2026-03-12,
+376,Caesars Entertainment,Consumer Discretionary,"Hotels, Restaurants & Leisure",CZR,2026-02-18,
+377,BrightSpring Health Services,Health Care,Health Care Providers & Services,BTSG,2026-02-27,
+378,Andersons,Consumer Staples,Food Products,ANDE,2026-02-17,
+379,Hershey,Consumer Staples,Food Products,HSY,2026-02-06,
+380,Hilton Worldwide Holdings,Consumer Discretionary,"Hotels, Restaurants & Leisure",HLT,2026-02-12,
+381,Mosaic,Materials,Chemicals,MOS,2026-02-18,
+382,Airbnb,Consumer Discretionary,"Hotels, Restaurants & Leisure",ABNB,2026-02-12,
+383,Diamondback Energy,Energy,"Oil, Gas & Consumable Fuels",FANG,2026-02-24,
+384,American Tower,Real Estate,Specialized REITs,AMT,2026-02-19,
+385,Vertex Pharmaceuticals,Health Care,Biotechnology,VRTX,2026-02-06,
+386,ServiceNow,Information Technology,Software,NOW,2026-01-29,
+387,Owens Corning,Industrials,Building Products,OC,2026-02-04,
+388,Thrivent Financial,Financials,Insurance,,,No earnings call
+389,Advance Auto Parts,Consumer Discretionary,Specialty Retail,AAP,2026-02-25,
+390,Toll Brothers,Consumer Discretionary,Household Durables,TOL,2026-02-18,
+391,Mohawk Industries,Consumer Discretionary,Household Durables,MHK,2026-02-06,
+392,Motorola Solutions,Information Technology,Communications Equipment,MSI,2026-02-13,
+393,Oshkosh,Industrials,Machinery,OSK,2026-01-29,
+394,DoorDash,Consumer Discretionary,"Hotels, Restaurants & Leisure",DASH,2026-02-12,
+395,Owens & Minor,Health Care,Health Care Providers & Services,OMI,2026-02-19,
+396,NVR,Consumer Discretionary,Household Durables,NVR,2026-02-17,
+397,Interpublic Group,Communication Services,Media,IPG,2026-02-12,
+398,Booz Allen Hamilton Holding,Industrials,Professional Services,BAH,2026-01-31,
+399,Burlington Stores,Consumer Discretionary,Specialty Retail,BURL,2026-03-05,
+400,Expeditors Intl. of Washington,Industrials,Air Freight & Logistics,EXPD,2026-02-18,
+401,Lululemon athletica,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",LULU,2026-03-19,
+402,Fidelity National Information Services,Financials,Financial Services,FIS,2026-02-10,
+403,Jefferies Financial Group,Financials,Capital Markets,JEF,2026-01-08,
+404,Williams,Energy,"Oil, Gas & Consumable Fuels",WMB,2026-02-12,
+405,VF,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",VFC,2026-02-04,
+406,FM,Financials,Insurance,,,No earnings call
+407,Autoliv,Consumer Discretionary,Automobile Components,ALV,2026-01-30,
+408,Westinghouse Air Brake Technologies,Industrials,Machinery,WAB,2026-02-12,
+409,Public Service Enterprise Group,Utilities,Electric Utilities,PEG,2026-02-20,
+410,Dana,Consumer Discretionary,Automobile Components,DAN,2026-02-12,
+411,Ebay,Consumer Discretionary,Broadline Retail,EBAY,2026-02-25,
+412,Celanese,Materials,Chemicals,CE,2026-02-12,
+413,Global Payments,Financials,Financial Services,GPN,2026-02-12,
+414,News Corp.,Communication Services,Media,NWSA,2026-02-06,
+415,Thor Industries,Consumer Discretionary,Automobile Components,THO,2026-03-09,
+416,QVC Group,Consumer Discretionary,Broadline Retail,QVCD,2026-02-27,
+417,Icahn Enterprises,Financials,Capital Markets,IEP,2026-02-27,
+418,Constellation Brands,Consumer Staples,Beverages,STZ,2026-01-09,
+419,Quest Diagnostics,Health Care,Health Care Providers & Services,DGX,2026-02-05,
+420,KLA,Information Technology,Semiconductors & Semiconductor Equipment,KLAC,2026-01-28,
+421,QXO Building Products,Industrials,Building Products,QXO,2026-02-19,
+422,APA,Energy,"Oil, Gas & Consumable Fuels",APA,2026-02-26,
+423,Gold.com,Materials,Metals & Mining,GOLD,2026-02-19,
+424,Biogen,Health Care,Biotechnology,BIIB,2026-02-12,
+425,Campbell's,Consumer Staples,Food Products,CPB,2026-03-05,
+426,Concentrix,Information Technology,IT Services,CNXC,2026-01-08,
+427,Cintas,Industrials,Commercial Services & Supplies,CTAS,2026-03-18,
+428,SpartanNash,Consumer Staples,Consumer Staples Distribution & Retail,SPTN,2026-02-19,
+429,Ace Hardware,Consumer Discretionary,Specialty Retail,,,No earnings call
+430,Analog Devices,Information Technology,Semiconductors & Semiconductor Equipment,ADI,2026-02-18,
+431,Eastman Chemical,Materials,Chemicals,EMN,2026-01-30,
+432,Interactive Brokers Group,Financials,Capital Markets,IBKR,2026-01-21,
+433,Regions Financial,Financials,Banks,RF,2026-01-17,
+434,JetBlue Airways,Industrials,Passenger Airlines,JBLU,2026-01-27,
+435,Zoetis,Health Care,Pharmaceuticals,ZTS,2026-02-12,
+436,KeyCorp,Financials,Banks,KEY,2026-01-22,
+437,Oscar Health,Health Care,Health Care Providers & Services,OSCR,2026-02-12,
+438,Ovintiv,Energy,"Oil, Gas & Consumable Fuels",OVV,2026-02-18,
+439,Seaboard,Consumer Staples,Food Products,,,No earnings call
+440,Hertz Global Holdings,Industrials,Ground Transportation,HTZ,2026-02-10,
+441,Skechers U.S.A.,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",SKX,2026-02-05,
+442,Optimum Communications,Communication Services,Media,OPTU,2/12/2026,
+443,NOV,Energy,Energy Equipment & Services,NOV,2026-02-05,
+444,Graphic Packaging Holding,Materials,Containers & Packaging,GPK,2026-02-04,
+445,Avery Dennison,Materials,Containers & Packaging,AVY,2026-01-29,
+446,Equinix,Real Estate,Specialized REITs,EQIX,2026-02-11,
+447,Insight Enterprises,Information Technology,"Electronic Equipment, Instruments & Components",NSIT,2026-02-12,
+448,Sirius XM Holdings,Communication Services,Media,SIRI,2026-01-28,
+449,PVH,Consumer Discretionary,"Textiles, Apparel & Luxury Goods",PVH,2026-03-26,
+450,CenterPoint Energy,Utilities,Electric Utilities,CNP,2026-02-19,
+451,WEC Energy Group,Utilities,Multi-Utilities,WEC,2026-02-04,
+452,Xylem,Industrials,Machinery,XYL,2026-02-04,
+453,Franklin Resources,Financials,Capital Markets,BEN,2026-01-31,
+454,PPL,Utilities,Electric Utilities,PPL,2026-02-13,
+455,Workday,Information Technology,Software,WDAY,2026-02-25,
+456,Dover,Industrials,Machinery,DOV,2026-01-30,
+457,Packaging Corp. of America,Materials,Containers & Packaging,PKG,2026-01-28,
+458,ABM Industries,Industrials,Commercial Services & Supplies,ABM,2026-03-10,
+459,Intuitive Surgical,Health Care,Health Care Equipment & Supplies,ISRG,2026-01-22,
+460,American Financial Group,Financials,Insurance,AFG,2026-02-05,
+461,Rockwell Automation,Industrials,Electrical Equipment,ROK,2026-02-04,
+462,Solventum,Health Care,Health Care Equipment & Supplies,SOLV,2026-02-05,
+463,Old Republic International,Financials,Insurance,ORI,2026-01-29,
+464,Securian Financial Group,Financials,Insurance,,,No earnings call
+465,Prologis,Real Estate,Industrial REITs,PLD,2026-01-22,
+466,J.M. Smucker,Consumer Staples,Food Products,SJM,2026-02-25,
+467,Taylor Morrison Home,Consumer Discretionary,Household Durables,TMHC,2026-02-04,
+468,XPO,Industrials,Air Freight & Logistics,XPO,2026-02-05,
+469,Voya Financial,Financials,Insurance,VOYA,2026-02-04,
+470,Palo Alto Networks,Information Technology,Software,PANW,2026-02-18,
+471,Vertiv Holdings,Industrials,Electrical Equipment,VRT,2026-02-19,
+472,Welltower,Real Estate,Health Care REITs,WELL,2026-02-10,
+473,Foot Locker,Consumer Discretionary,Specialty Retail,FL,2026-03-05,
+474,Par Pacific Holdings,Energy,"Oil, Gas & Consumable Fuels",PARR,2026-02-25,
+475,TransDigm Group,Industrials,Aerospace & Defense,TDG,2026-02-04,
+476,Commercial Metals,Materials,Metals & Mining,CMC,2026-01-06,
+477,Post Holdings,Consumer Staples,Food Products,POST,2026-02-06,
+478,Masco,Industrials,Building Products,MAS,2026-02-11,
+479,Rush Enterprises,Industrials,Trading Companies & Distributors,RUSHA,2026-02-19,
+480,KBR,Industrials,Professional Services,KBR,2026-02-18,
+481,Sprouts Farmers Market,Consumer Staples,Consumer Staples Distribution & Retail,SFM,2026-02-20,
+482,Williams-Sonoma,Consumer Discretionary,Specialty Retail,WSM,2026-03-19,
+483,Zimmer Biomet Holdings,Health Care,Health Care Equipment & Supplies,ZBH,2026-02-04,
+484,CACI International,Industrials,Professional Services,CACI,2026-01-22,
+485,Microchip Technology,Information Technology,Semiconductors & Semiconductor Equipment,MCHP,2026-02-05,
+486,Watsco,Industrials,Trading Companies & Distributors,WSO,2026-02-11,
+487,Newell Brands,Consumer Discretionary,Household Durables,NWL,2026-02-06,
+488,ARKO,Consumer Discretionary,Specialty Retail,ARKO,2026-03-05,
+489,Sanmina,Information Technology,"Electronic Equipment, Instruments & Components",SANM,2026-01-27,
+490,Electronic Arts,Communication Services,Entertainment,EA,2026-02-04,
+491,Yum Brands,Consumer Discretionary,"Hotels, Restaurants & Leisure",YUM,2026-02-05,
+492,Fastenal,Industrials,Trading Companies & Distributors,FAST,2026-01-16,
+493,CMS Energy,Utilities,Multi-Utilities,CMS,2026-02-06,
+494,Monster Beverage,Consumer Staples,Beverages,MNST,2026-02-27,
+495,Endeavor Group Holdings,Communication Services,Entertainment,EDR,2026-02-26,
+496,Science Applications International,Industrials,Professional Services,SAIC,2026-03-17,
+497,Core & Main,Industrials,Trading Companies & Distributors,CNM,2026-03-24,
+498,Howmet Aerospace,Industrials,Aerospace & Defense,HWM,2026-02-04,
+498,Ingredion,Consumer Staples,Food Products,INGR,2026-02-04,
+500,Vulcan Materials,Materials,Construction Materials,VMC,2026-02-19,
