@@ -11,6 +11,9 @@ import datetime
 import ast
 import hashlib
 import os
+import time
+import threading
+import requests as http_requests
 import db_utils
 import db_cloud_utils
 
@@ -21,6 +24,55 @@ logger = logging.getLogger(__name__)
 # Constants for BQ
 PROJECT_ID = "sri-benchmarking-databases"
 DATASET_ID = "pressure_monitoring"
+
+# Parquet cache settings
+PARQUET_CACHE_DIR = "/tmp/parquet_cache"
+PARQUET_CACHE_FILE = os.path.join(PARQUET_CACHE_DIR, "stock_earning_call_transcripts.parquet")
+PARQUET_CACHE_TTL_SECONDS = 3600  # Re-download after 1 hour
+_cache_lock = threading.Lock()
+
+
+def _get_cached_parquet_path(huggingface_client):
+    """Download and cache the HuggingFace parquet file locally.
+
+    Returns the local file path to use in DuckDB queries instead of the remote URL.
+    Uses a TTL to avoid stale data while preventing repeated downloads.
+    """
+    with _cache_lock:
+        # Check if cached file exists and is fresh
+        if os.path.exists(PARQUET_CACHE_FILE):
+            file_age = time.time() - os.path.getmtime(PARQUET_CACHE_FILE)
+            if file_age < PARQUET_CACHE_TTL_SECONDS:
+                logger.info(f"Using cached parquet file (age: {int(file_age)}s)")
+                return PARQUET_CACHE_FILE
+
+        # Download fresh copy
+        os.makedirs(PARQUET_CACHE_DIR, exist_ok=True)
+        url = huggingface_client.get_url_path(stock_earning_call_transcripts)
+        logger.info(f"Downloading parquet file from HuggingFace: {url}")
+
+        temp_file = PARQUET_CACHE_FILE + ".tmp"
+        try:
+            response = http_requests.get(url, stream=True, timeout=300)
+            response.raise_for_status()
+            with open(temp_file, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    f.write(chunk)
+            # Atomic rename to avoid partial reads
+            os.replace(temp_file, PARQUET_CACHE_FILE)
+            file_size_mb = os.path.getsize(PARQUET_CACHE_FILE) / (1024 * 1024)
+            logger.info(f"Parquet file cached successfully ({file_size_mb:.1f} MB)")
+        except Exception as e:
+            logger.error(f"Failed to download parquet file: {e}")
+            # Clean up temp file if it exists
+            if os.path.exists(temp_file):
+                os.remove(temp_file)
+            # Fall back to remote URL if cache fails
+            logger.warning("Falling back to remote parquet URL")
+            return url
+
+        return PARQUET_CACHE_FILE
+
 
 def _fetch_and_insert_orphan_content(duckdb_client, huggingface_client, orphans):
     """Fetch and insert content rows for orphaned metadata entries."""
@@ -33,9 +85,9 @@ def _fetch_and_insert_orphan_content(duckdb_client, huggingface_client, orphans)
     symbols_str = ", ".join(f"'{s}'" for s in symbols)
     dates_str = ", ".join(f"'{d}'" for d in dates)
 
-    url = huggingface_client.get_url_path(stock_earning_call_transcripts)
+    parquet_path = _get_cached_parquet_path(huggingface_client)
     sql = (
-        f"SELECT * FROM '{url}'"
+        f"SELECT * FROM '{parquet_path}'"
         f" WHERE symbol IN ({symbols_str})"
         f" AND CAST(report_date AS DATE) IN ({dates_str})"
     )
@@ -168,11 +220,11 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
         tickers_str = ", ".join([f"'{t}'" for t in tickers])
         logger.info(f"Querying for {len(tickers)} tickers. First 5: {tickers[:5]}, Last 5: {tickers[-5:]}")
 
-        # Get data URL
-        url = huggingface_client.get_url_path(stock_earning_call_transcripts)
+        # Get parquet file (cached locally to avoid repeated HuggingFace requests)
+        parquet_path = _get_cached_parquet_path(huggingface_client)
 
-        # Construct SQL query
-        sql = f"SELECT * FROM '{url}' WHERE symbol IN ({tickers_str}) AND CAST(report_date AS DATE) >= '{cutoff_date}'"
+        # Construct SQL query against local cached file
+        sql = f"SELECT * FROM '{parquet_path}' WHERE symbol IN ({tickers_str}) AND CAST(report_date AS DATE) >= '{cutoff_date}'"
 
         logger.info("Executing DuckDB query...")
         result = duckdb_client.query(sql)

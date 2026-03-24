@@ -26,6 +26,10 @@ steps:
       - 'us-central1'
       - '--platform'
       - 'managed'
+      - '--max-instances'
+      - '5'
+      - '--concurrency'
+      - '10'
 
 images:
   - 'us-central1-docker.pkg.dev/sri-benchmarking-databases/cloud-run-source-deploy/earnings-call-collector/earnings-call-collection'
