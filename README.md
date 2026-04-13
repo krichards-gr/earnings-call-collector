@@ -11,8 +11,8 @@ This tool programmatically fetches earnings call transcripts for specified stock
 
 **Data Flow:**
 ```
-DuckDB Query → DefeatBeta API → Transcript Processing → BigQuery Storage
-   (Input)      (HuggingFace)     (Deduplication)      (Output)
+HuggingFace Parquet → Local Cache → DuckDB Query → Transcript Processing → BigQuery Storage
+    (Source)           (1hr TTL)      (Filter)       (Deduplication)         (Output)
 ```
 
 **Execution Modes:**
@@ -24,19 +24,46 @@ DuckDB Query → DefeatBeta API → Transcript Processing → BigQuery Storage
 - ✅ **Memory-optimized for Cloud Run** - Single-threaded DuckDB queries with 2GB memory allocation
 - ✅ **Flexible date filtering** - Support for both `months` and `start_date` parameters
 - ✅ **Idempotent operation** - Safe to re-run without creating duplicates
+- ✅ **Parquet caching** - Downloads and caches HuggingFace parquet locally (1-hour TTL) to prevent 429 rate limiting
+- ✅ **Automatic orphan healing** - Detects metadata rows missing content and backfills them on each run
+- ✅ **Fortune 500 coverage** - Default ticker list covers full F500
 
 ## Project Structure
 
+### Core Application
 | File | Purpose |
 |------|---------|
-| **`sql_get.py`** | Core transcript collection logic with BigQuery deduplication |
+| **`sql_get.py`** | Core transcript collection logic with BigQuery deduplication and parquet caching |
 | **`main.py`** | HTTP entry point for Google Cloud Run Functions |
-| **`db_cloud_utils.py`** | BigQuery interaction utilities (schema, insertion, ID retrieval) |
+| **`db_cloud_utils.py`** | BigQuery interaction utilities (schema, insertion, ID retrieval, orphan detection) |
 | **`db_utils.py`** | Local SQLite database utilities (local mode only) |
-| **`setup_bq.py`** | One-time BigQuery dataset and table initialization |
-| **`tickers.csv`** | Default list of ticker symbols to query |
+
+### Configuration & Data
+| File | Purpose |
+|------|---------|
+| **`tickers.csv`** | Full Fortune 500 ticker list (~500 symbols) |
+| **`f500_tickers.csv`** | Fortune 500 ticker reference list |
+| **`requirements.txt`** | Python dependencies |
+| **`Dockerfile`** | Container image definition (Python 3.11-slim) |
+| **`cloudbuild.yaml`** | Google Cloud Build pipeline (build, push, deploy to Cloud Run) |
+| **`Procfile`** | Process definition for deployment |
+
+### Scripts
+| File | Purpose |
+|------|---------|
 | **`run_in_wsl.ps1`** | PowerShell wrapper for local WSL execution |
+| **`run_backfill_in_wsl.ps1`** | PowerShell wrapper for content backfill |
 | **`setup_and_run.sh`** | Bash script for environment setup in WSL |
+| **`run.sh`** | Simple Python runner script |
+| **`backfill.sh`** | Backfill content runner script |
+
+### Utilities
+| File | Purpose |
+|------|---------|
+| **`setup_bq.py`** | One-time BigQuery dataset and table initialization |
+| **`backfill_content.py`** | Standalone backfill for orphaned metadata rows missing content |
+| **`fix_duplicates.py`** | Emergency deduplication of BigQuery tables |
+| **`discover_consts.py`** | DefeatBeta API constants discovery utility |
 
 ## Cloud Deployment (Google Cloud Run)
 
@@ -54,6 +81,7 @@ The code automatically detects Cloud Run via the `K_SERVICE` environment variabl
 - **Single-threaded DuckDB client** (reduces memory overhead)
 - **Skips local DB operations** (no SQLite/CSV writes)
 - **BigQuery-only storage** (ephemeral storage ignored)
+- **Local parquet caching** (downloads HuggingFace parquet to `/tmp/parquet_cache` with 1-hour TTL to prevent 429 rate limiting)
 
 **Required Constants** (in `sql_get.py`):
 ```python
@@ -139,11 +167,12 @@ curl -X POST https://your-function-url \
 **BigQuery is the single source of truth:**
 1. On startup, loads all existing `transcript_id` values from BigQuery
 2. If BigQuery fails to load → **aborts immediately** to prevent duplicates
-3. Queries DuckDB for new transcripts within date range
-4. Skips any transcript already in BigQuery (based on `transcript_id`)
-5. Writes only new transcripts to BigQuery
+3. **Heals orphans** — detects metadata rows missing content and backfills them automatically
+4. Queries DuckDB for new transcripts within date range
+5. Skips any transcript already in BigQuery (based on `transcript_id`)
+6. Writes only new transcripts to BigQuery
 
-**Result:** Safe to run multiple times without creating duplicate records.
+**Result:** Safe to run multiple times without creating duplicate records. Orphaned data from partial failures is automatically repaired.
 
 ## Local Development & Usage
 
@@ -214,6 +243,12 @@ The DefeatBeta API hosts earnings call transcript data on HuggingFace. To effici
 - Cloud Run queries DuckDB → processes results → saves to BigQuery
 - Thread count is optimized (1 thread in Cloud Run, 8 threads locally)
 
+**Parquet Caching:**
+- The HuggingFace parquet file is downloaded and cached locally in `/tmp/parquet_cache`
+- Cache TTL is 1 hour — after expiry, a fresh copy is downloaded
+- Prevents HTTP 429 (Too Many Requests) errors from repeated HuggingFace downloads
+- Falls back to remote URL if the download fails
+
 ## ID Generation & Idempotency
 
 **Transcript IDs are deterministic:**
@@ -230,6 +265,16 @@ transcript_id = MD5(symbol + report_date)
 **Example:**
 - `AAPL` on `2025-12-15` → Always generates `transcript_id: a1b2c3d4...`
 - Re-processing this call 10 times → Still creates only 1 record in BigQuery
+
+## CI/CD Pipeline
+
+Deployment is automated via **Google Cloud Build** (`cloudbuild.yaml`):
+
+1. **Build** - Docker image built with commit SHA and `latest` tags
+2. **Push** - Image pushed to Artifact Registry (`us-central1-docker.pkg.dev`)
+3. **Deploy** - Cloud Run service updated with new image (max 5 instances, concurrency 10)
+
+Logging is set to `CLOUD_LOGGING_ONLY` to avoid requiring additional storage permissions.
 
 ## Troubleshooting
 
