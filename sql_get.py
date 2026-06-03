@@ -141,6 +141,50 @@ def _fetch_and_insert_orphan_content(duckdb_client, huggingface_client, orphans)
     logger.info(f"Orphan backfill complete: matched {matched}/{len(orphans)} transcripts, inserted {len(content_rows)} content rows.")
 
 
+def _get_tickers_from_google_sheet(url):
+    """Fetch tickers from a Google Sheet.
+
+    Expects the sheet to have a rank column (any column whose name contains 'rank',
+    case-insensitive) and a 'Ticker' column. Filters to rows where rank <= 500.
+    Returns a list of ticker strings, or an empty list on failure.
+    """
+    import re
+    match = re.search(r'/spreadsheets/d/([^/]+)', url)
+    gid_match = re.search(r'gid=(\d+)', url)
+    if not match:
+        logger.error(f"Could not parse Google Sheet ID from URL: {url}")
+        return []
+
+    sheet_id = match.group(1)
+    gid = gid_match.group(1) if gid_match else '0'
+    export_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}"
+
+    try:
+        logger.info(f"Fetching tickers from Google Sheet (gid={gid})...")
+        df = pd.read_csv(export_url)
+    except Exception as e:
+        logger.error(f"Failed to fetch Google Sheet: {e}")
+        return []
+
+    # Locate rank column (case-insensitive, partial match)
+    rank_col = next((c for c in df.columns if 'rank' in c.lower()), None)
+    if rank_col is None:
+        logger.error(f"No rank column found in sheet. Columns: {list(df.columns)}")
+        return []
+
+    # Locate ticker column
+    ticker_col = next((c for c in df.columns if c.strip().lower() == 'ticker'), None)
+    if ticker_col is None:
+        logger.error(f"No 'Ticker' column found in sheet. Columns: {list(df.columns)}")
+        return []
+
+    df[rank_col] = pd.to_numeric(df[rank_col], errors='coerce')
+    filtered = df[df[rank_col] <= 500][ticker_col].dropna().str.strip()
+    tickers = sorted(filtered.unique().tolist())
+    logger.info(f"Loaded {len(tickers)} tickers from Google Sheet (rank <= 500).")
+    return tickers
+
+
 def collect_transcripts(tickers_source, months=None, start_date=None):
     """
     Main logic to collect transcripts.
@@ -200,6 +244,11 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
         tickers = []
         if isinstance(tickers_source, list):
             tickers = tickers_source
+        elif isinstance(tickers_source, str) and 'docs.google.com/spreadsheets' in tickers_source:
+            tickers = _get_tickers_from_google_sheet(tickers_source)
+            if not tickers:
+                logger.error("Failed to load tickers from Google Sheet.")
+                return
         elif isinstance(tickers_source, str):
             try:
                 tickers_df = pd.read_csv(tickers_source)
@@ -365,7 +414,7 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
 if __name__ == "__main__":
     # Argument parsing
     parser = argparse.ArgumentParser(description='Retrieve earning call transcripts.')
-    parser.add_argument('--tickers', type=str, default='tickers.csv', help='Path to CSV file containing tickers')
+    parser.add_argument('--tickers', type=str, default='https://docs.google.com/spreadsheets/d/1Ct9Mw17bRTl-fRIixbMCWsKkhrMlP3LVKADJag5zS8o/edit?gid=95784411#gid=95784411', help='Google Sheet URL or path to CSV file containing tickers')
     parser.add_argument('--months', type=int, help='Number of months back to retrieve data for')
     parser.add_argument('--start_date', type=str, help='Start date in YYYY-MM-DD format')
     parser.add_argument('--run_local', action='store_true', help='Explicitly enable local execution')

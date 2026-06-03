@@ -18,7 +18,7 @@ def entry_point(request):
     request_json = request.get_json(silent=True, force=True)
     request_args = request.args
 
-    tickers_source = 'tickers.csv' # Default to included file
+    tickers_source = 'https://docs.google.com/spreadsheets/d/1Ct9Mw17bRTl-fRIixbMCWsKkhrMlP3LVKADJag5zS8o/edit?gid=95784411#gid=95784411'
     months = 1 # Default to 1 month
     start_date = None
 
