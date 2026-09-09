@@ -1,10 +1,37 @@
-import functions_framework
-from sql_get import collect_transcripts
 import logging
+import random
+import time
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+def _import_defeatbeta_api_with_retry(max_attempts=5, base_delay=2):
+    """defeatbeta_api hits HuggingFace's API unconditionally at import time
+    (to print a welcome banner) and raises RuntimeError on any failure,
+    including 429s. Under autoscaling, many instances cold-start at once and
+    all hit that endpoint together, triggering rate limiting and crash-looping
+    every new instance. Retry with jittered backoff so a transient 429
+    doesn't take the instance down and so simultaneous cold starts spread out
+    their requests instead of retrying in lockstep.
+    """
+    for attempt in range(max_attempts):
+        try:
+            import defeatbeta_api  # noqa: F401
+            return
+        except RuntimeError as e:
+            if attempt == max_attempts - 1:
+                raise
+            delay = base_delay * (2 ** attempt) + random.uniform(0, 1)
+            logger.warning(f"defeatbeta_api import failed ({e}); retrying in {delay:.1f}s")
+            time.sleep(delay)
+
+
+_import_defeatbeta_api_with_retry()
+
+import functions_framework
+from sql_get import collect_transcripts
 
 @functions_framework.http
 def entry_point(request):
