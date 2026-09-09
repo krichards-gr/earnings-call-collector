@@ -1,34 +1,38 @@
 import logging
-import random
-import time
+
+import requests
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def _import_defeatbeta_api_with_retry(max_attempts=5, base_delay=2):
-    """defeatbeta_api hits HuggingFace's API unconditionally at import time
-    (to print a welcome banner) and raises RuntimeError on any failure,
-    including 429s. Under autoscaling, many instances cold-start at once and
-    all hit that endpoint together, triggering rate limiting and crash-looping
-    every new instance. Retry with jittered backoff so a transient 429
-    doesn't take the instance down and so simultaneous cold starts spread out
-    their requests instead of retrying in lockstep.
+def _stub_huggingface_get(*args, **kwargs):
+    response = requests.Response()
+    response.status_code = 200
+    response._content = b'{"update_time": "unavailable (stubbed during import)"}'
+    return response
+
+
+def _import_defeatbeta_api_without_welcome_banner():
+    """defeatbeta_api unconditionally calls HuggingFace's API at import time
+    just to print a decorative welcome banner, and raises RuntimeError if that
+    call fails for any reason, including a 429. Under autoscaling, many Cloud
+    Run instances cold-start together, all hit that endpoint at once, and get
+    rate limited by HuggingFace for longer than any reasonable retry window,
+    crash-looping every instance indefinitely. Since the banner's content is
+    never used, stub out the HTTP call for the duration of the import instead
+    of retrying it; real data requests later still hit HuggingFace normally.
     """
-    for attempt in range(max_attempts):
-        try:
-            import defeatbeta_api  # noqa: F401
-            return
-        except RuntimeError as e:
-            if attempt == max_attempts - 1:
-                raise
-            delay = base_delay * (2 ** attempt) + random.uniform(0, 1)
-            logger.warning(f"defeatbeta_api import failed ({e}); retrying in {delay:.1f}s")
-            time.sleep(delay)
+    original_get = requests.Session.get
+    requests.Session.get = _stub_huggingface_get
+    try:
+        import defeatbeta_api  # noqa: F401
+    finally:
+        requests.Session.get = original_get
 
 
-_import_defeatbeta_api_with_retry()
+_import_defeatbeta_api_without_welcome_banner()
 
 import functions_framework
 from sql_get import collect_transcripts
