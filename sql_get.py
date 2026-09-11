@@ -11,6 +11,7 @@ import datetime
 import ast
 import hashlib
 import os
+import random
 import time
 import threading
 import requests as http_requests
@@ -29,6 +30,8 @@ DATASET_ID = "pressure_monitoring"
 PARQUET_CACHE_DIR = "/tmp/parquet_cache"
 PARQUET_CACHE_FILE = os.path.join(PARQUET_CACHE_DIR, "stock_earning_call_transcripts.parquet")
 PARQUET_CACHE_TTL_SECONDS = 3600  # Re-download after 1 hour
+PARQUET_DOWNLOAD_MAX_ATTEMPTS = 4
+PARQUET_DOWNLOAD_BASE_DELAY_SECONDS = 2
 _cache_lock = threading.Lock()
 
 
@@ -49,29 +52,49 @@ def _get_cached_parquet_path(huggingface_client):
         # Download fresh copy
         os.makedirs(PARQUET_CACHE_DIR, exist_ok=True)
         url = huggingface_client.get_url_path(stock_earning_call_transcripts)
-        logger.info(f"Downloading parquet file from HuggingFace: {url}")
 
         temp_file = PARQUET_CACHE_FILE + ".tmp"
-        try:
-            response = http_requests.get(url, stream=True, timeout=300)
-            response.raise_for_status()
-            with open(temp_file, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    f.write(chunk)
-            # Atomic rename to avoid partial reads
-            os.replace(temp_file, PARQUET_CACHE_FILE)
-            file_size_mb = os.path.getsize(PARQUET_CACHE_FILE) / (1024 * 1024)
-            logger.info(f"Parquet file cached successfully ({file_size_mb:.1f} MB)")
-        except Exception as e:
-            logger.error(f"Failed to download parquet file: {e}")
-            # Clean up temp file if it exists
-            if os.path.exists(temp_file):
-                os.remove(temp_file)
-            # Fall back to remote URL if cache fails
-            logger.warning("Falling back to remote parquet URL")
-            return url
+        last_error = None
+        for attempt in range(PARQUET_DOWNLOAD_MAX_ATTEMPTS):
+            try:
+                logger.info(
+                    f"Downloading parquet file from HuggingFace "
+                    f"(attempt {attempt + 1}/{PARQUET_DOWNLOAD_MAX_ATTEMPTS}): {url}"
+                )
+                response = http_requests.get(url, stream=True, timeout=300)
+                response.raise_for_status()
+                with open(temp_file, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        f.write(chunk)
+                # Atomic rename to avoid partial reads
+                os.replace(temp_file, PARQUET_CACHE_FILE)
+                file_size_mb = os.path.getsize(PARQUET_CACHE_FILE) / (1024 * 1024)
+                logger.info(f"Parquet file cached successfully ({file_size_mb:.1f} MB)")
+                return PARQUET_CACHE_FILE
+            except Exception as e:
+                last_error = e
+                if os.path.exists(temp_file):
+                    os.remove(temp_file)
+                if attempt < PARQUET_DOWNLOAD_MAX_ATTEMPTS - 1:
+                    delay = PARQUET_DOWNLOAD_BASE_DELAY_SECONDS * (2 ** attempt) + random.uniform(0, 1)
+                    logger.warning(f"Parquet download failed ({e}); retrying in {delay:.1f}s")
+                    time.sleep(delay)
 
-        return PARQUET_CACHE_FILE
+        # All retries exhausted. Serving the raw remote URL here would just
+        # send DuckDB's own httpfs client at the same rate-limited HuggingFace
+        # endpoint a second time, which fails the same way. Prefer a stale
+        # cache over that, and only give up entirely if we have nothing cached.
+        if os.path.exists(PARQUET_CACHE_FILE):
+            logger.warning(
+                f"Parquet download failed after {PARQUET_DOWNLOAD_MAX_ATTEMPTS} attempts "
+                f"({last_error}); serving stale cached copy instead."
+            )
+            return PARQUET_CACHE_FILE
+
+        raise RuntimeError(
+            f"Failed to download parquet file from HuggingFace after "
+            f"{PARQUET_DOWNLOAD_MAX_ATTEMPTS} attempts: {last_error}"
+        )
 
 
 def _fetch_and_insert_orphan_content(duckdb_client, huggingface_client, orphans):
