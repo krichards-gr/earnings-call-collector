@@ -1,7 +1,7 @@
 import defeatbeta_api
 import logging
 import pandas as pd
-from defeatbeta_api.client.duckdb_client import DuckDBClient
+from defeatbeta_api.client.duckdb_client import get_duckdb_client
 from defeatbeta_api.client.duckdb_client import Configuration
 from defeatbeta_api.client.hugging_face_client import HuggingFaceClient
 from defeatbeta_api.utils.const import stock_earning_call_transcripts
@@ -219,11 +219,15 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
     # Check if running in Cloud Run (K_SERVICE is set automatically)
     is_cloud_run = os.environ.get('K_SERVICE') is not None
 
-    # Initialize clients with appropriate thread count based on environment
-    if is_cloud_run:
-        duckdb_client = DuckDBClient(log_level=logging.INFO, config=Configuration(threads=1))
-    else:
-        duckdb_client = DuckDBClient(log_level=logging.INFO, config=Configuration(threads=8))
+    # Initialize clients with appropriate thread count based on environment.
+    # Use the shared singleton client rather than constructing a fresh one:
+    # DuckDBClient.__init__ runs `INSTALL cache_httpfs FROM community` (a
+    # network fetch of a native extension) on every construction, and doing
+    # that on every request was both slow and a likely source of the native
+    # crashes we saw under repeated/concurrent cold starts. The singleton
+    # only pays that cost once per warm container instance.
+    threads = 1 if is_cloud_run else 8
+    duckdb_client = get_duckdb_client(log_level=logging.INFO, config=Configuration(threads=threads))
 
     huggingface_client = HuggingFaceClient()
 
@@ -428,10 +432,10 @@ def collect_transcripts(tickers_source, months=None, start_date=None):
                 logger.error(f"Failed to save to BigQuery: {e}")
 
     finally:
-        try:
-            duckdb_client.close()
-        except Exception:
-            pass
+        # duckdb_client is now the shared singleton (see above) and is
+        # reused across requests within a warm instance, so it must not be
+        # closed here.
+        pass
 
 
 if __name__ == "__main__":
