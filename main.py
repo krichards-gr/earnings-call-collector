@@ -34,6 +34,16 @@ def _import_defeatbeta_api_without_welcome_banner():
 
 _import_defeatbeta_api_without_welcome_banner()
 
+from defeatbeta_api.client.duckdb_client import DuckDBClient as _DuckDBClient
+
+# DuckDBClient.__init__ also unconditionally calls HuggingFace on every
+# construction (once per request here) just to check whether DuckDB's own
+# httpfs cache is stale, and raises if that call fails (e.g. a 429). This app
+# never queries through DuckDB's httpfs cache — sql_get.py always downloads
+# the parquet itself and queries the local file path directly — so the
+# validation has nothing to protect here and is disabled outright.
+_DuckDBClient._validate_httpfs_cache = lambda self: None
+
 import functions_framework
 from sql_get import collect_transcripts
 
