@@ -34,6 +34,16 @@ PARQUET_DOWNLOAD_MAX_ATTEMPTS = 4
 PARQUET_DOWNLOAD_BASE_DELAY_SECONDS = 2
 _cache_lock = threading.Lock()
 
+# HuggingFace rate-limits anonymous requests much more aggressively than
+# authenticated ones. Set HF_TOKEN (a read-only access token from
+# https://huggingface.co/settings/tokens) as an env var to get a per-account
+# quota instead of sharing the anonymous per-IP one.
+HF_TOKEN = os.environ.get('HF_TOKEN')
+
+
+def _huggingface_headers():
+    return {"Authorization": f"Bearer {HF_TOKEN}"} if HF_TOKEN else {}
+
 
 def _get_cached_parquet_path(huggingface_client):
     """Download and cache the HuggingFace parquet file locally.
@@ -61,7 +71,7 @@ def _get_cached_parquet_path(huggingface_client):
                     f"Downloading parquet file from HuggingFace "
                     f"(attempt {attempt + 1}/{PARQUET_DOWNLOAD_MAX_ATTEMPTS}): {url}"
                 )
-                response = http_requests.get(url, stream=True, timeout=300)
+                response = http_requests.get(url, stream=True, timeout=300, headers=_huggingface_headers())
                 response.raise_for_status()
                 with open(temp_file, 'wb') as f:
                     for chunk in response.iter_content(chunk_size=8192):
